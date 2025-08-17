@@ -1,0 +1,5 @@
+
+
+petent: 416 x 460
+
+paszport: 456 x 456 (kwadratowy)
