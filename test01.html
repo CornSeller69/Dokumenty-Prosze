@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="Sources/office.css">
+      <title>Test 1</title>
+</head>
+<body onclick="playAm()"> <!-- remove the onclick="playAm()" later on :skull: -->
+      <section id="biuro">
+            <section id="topbar">
+                  <h1 id="topheader">Loading...</h1>
+            </section>
+            <section id="office">
+
+                  <section id="playtest-wall" style="background-color: black; position: absolute; z-index: 10; width: 100%; height: 100%; top: 0; left: 0; visibility: hidden;"><h1 style="font-size: 50px; text-align: center; color: white;"><br><br><br><br>KONIEC WERSJI ALPHA3<br>Dzięki za testowanie.</h1></section> <!--  TYMCZASOWE!!! USUNĄĆ PÓŹNIEJ!!!  -->
+
+                  <img src="Materials/shutter.png" alt="CLOSED. OPEN SHUTTER." id="shutter" draggable="false">
+                  <img src="Materials/people/green2.png" alt="person" id="petent" draggable="false">
+                  <section class="boki" id="lewy">
+                        <div class="tooltip">
+                              <img src="Materials/items/book.png" alt="Guide Book" class="items" onclick="openGuide()" draggable="false">
+                              <span class="tooltiptext">PORADNIK INSPEKTORA</span>
+                        </div>
+                        <div class="tooltip">
+                              <img src="Materials/items/bulletin.png" alt="Bulletin" class="items" onclick="openBulletin()" draggable="false">
+                              <span class="tooltiptext">CODZIENNY BIULETYN</span>
+                        </div>
+                        <div class="tooltip">
+                              <img src="Materials/items/transcript.png" alt="Transcript" class="items" onclick="openTranscript()" draggable="false">
+                              <span class="tooltiptext">TRANSKRYPT ROZMOWY</span>
+                        </div>
+                        <div class="tooltip" style="position: absolute; left: 0; bottom: -5px;">
+                              <img src="Materials/items/microphone.png" alt="Microphone" class="items" onclick="callNext()" style="cursor: progress;" draggable="false">
+                        </div>
+                  </section>
+                  <section class="boki" id="prawy">
+                              <img src="Materials/items/turn-on.png" alt="Gate Ctrl" class="items" id="gate-switch" onclick="toggleGate()" style="cursor: default;" draggable="false">
+                              <img src="Materials/items/stamp.png" alt="approve" class="items" onclick="stampEntry()" style="cursor: alias;" draggable="false">
+                              <img src="Materials/items/alarm.png" alt="alarm" class="items" onclick="callGuards()" style="cursor: default;" draggable="false">
+                  </section>
+                  <section id="desk"></section>
+                  <section id="playerguide">
+                        <section class="gpages" style="left: 2%; border-right: 3px solid burlywood; text-align: center;" id="gpage1"></section> 
+                        <section class="gpages" style="right: 2%; border-left: 3px solid burlywood; text-align: center;" id="gpage2"></section>
+                  </section>
+                  <section id="bulletin"><button onclick="closeBulletin()">ZAMKNIJ</button><h1 style="font-size: 30px;">Ministerstwo Ochrony Granicy</h1><p id="bull-content"></p></section>
+                  <section id="transcript"><button onclick="closeTranscript()">ZAMKNIJ</button><p id="tscript-content"></p></section>
+                  <section id="citation"><button onclick="closeCite()">ZAMKNIJ</button>
+                        <br><h1 style="font-size: 30px; font-family: 'PixelSans';"><u>M.O.G. — Wykroczenie</u></h1>
+                        <br><p id="cite-desc" style="font-size: 15px;"></p>
+                        <h1 style="font-family: 'PixelSans'; font-size: 25px; position: absolute; text-align: center; bottom: 0; left: 0; right: 0; margin-inline: auto;" id="cite-penalty"></h1>
+                  </section>
+                  <section id="stampPopup"><button onclick="closeSPopup()" id="popupb0">ZAMKNIJ</button><br><br><br><br><button onclick="issueStamp(true)" id="popupb1">Przyznaj Wizę</button><br><button onclick="issueStamp(false)" id="popupb2">Odmów Wizę</button></section>
+                  <section id="dialog-box"><!--<h1 id="dialog-actor">Placeholder Actor</h1><p id="dialog-words">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptate ab, reiciendis distinctio labore porro optio. Sit illum esse dicta exercitationem, quisquam dignissimos explicabo beatae dolorum, minus libero repellat eveniet numquam!</p>--></section>
+                  <button id="passport-opener" onclick="showPass()">Zobacz Dokumenty</button>
+                  <section id="passport">
+                        <section id="pass2">
+                              <section id="passimgs"><br><img src="Materials/people/green-mug.png" alt="ludek." id="pass-pic" draggable="false"><br><img src="Materials/people/visastamp.png" draggable="false" alt="VISA"></section>
+                              <section id="passinfs">
+                                    <button onclick="hidePass()">ZAMKNIJ</button><br>
+                                    <b>Imię i nazwisko/Name and surname</b>
+                                    <p id="passname">a</p>
+                                    <b>Data urodzenia/Birth date</b>
+                                    <p id="passbirth">b</p>
+                                    <b>Narodowość/Nationality</b>
+                                    <p id="passnat">c</p>
+                                    <b>Miasto wydające/Issuing city</b>
+                                    <p id="passcity">d</p>
+                                    <b>Data ważności/Expiration date</b>
+                                    <p id="passexp">e</p>
+                              </section>
+                        </section>  
+                  </section>
+            </section>
+      </section>
+</body>
+<script src="Sources/script2.js"></script>
+<script src="Sources/values.js"></script>
+<script src="Sources/people.js"></script>
+</html>

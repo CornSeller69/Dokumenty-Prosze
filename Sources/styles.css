@@ -1,0 +1,194 @@
+@font-face {
+     font-family: 'AgitProp';
+     src: url('../Materials/font/AGITPM.ttf') format('truetype');/*, url('AGITPM.woff') format('woff');*/
+}
+@font-face {
+     font-family: 'PixelSans';
+     src: url('../Materials/font/PixelSans1.ttf');
+}
+@font-face {
+     font-family: 'PixelSansBold';
+     src: url('../Materials/font/PixelSans2.ttf');
+}
+@font-face {
+     font-family: 'Handwritten';
+     src: url('../Materials/font/ArchitectsDaughter.ttf');
+}
+
+* {
+     /*font-family: PixelSansBold, AgitProp, monospace;*/
+     overflow: hidden;
+     overflow: -moz-hidden-unscrollable; /* uwu */
+}
+
+body {
+     background-color: rgb(56, 56, 56);
+}
+
+#enter-thought {
+     background-color: black;
+     color: whitesmoke;
+     padding: 10px;
+     text-align: center;
+     position: absolute;
+     margin-inline: auto;
+     left: 0;
+     right: 0;
+     top: 10%;
+     border: 2px double whitesmoke;
+     height: 80%;
+     width: 50%;
+     font-size: 20px;
+     cursor: help;
+}
+
+#enter-thought h1 {
+     font-size: 50px;
+     font-family: PixelSansBold, AgitProp;
+}
+
+#main-menu {
+     visibility: hidden;
+     background-color: black;
+     color: whitesmoke;
+     left: 0;
+     top: 0;
+     position: absolute;
+     height: 100%;
+     width: 100%;
+     opacity: 1;
+     transition: opacity 0.4s;
+     z-index: 2;
+}
+
+#logo {
+     width: 40%;
+     position: absolute;
+     margin-inline: auto;
+     left: 0;
+     right: 0;
+     top: 100%;
+     user-select: none;
+}
+
+#menubutton1,#menubutton2 {
+     position: absolute;
+     background-color: black;
+     color: whitesmoke;
+     border: 2px dashed whitesmoke;
+     height: 50px;
+     font-size: 35px;
+     font-family: AgitProp;
+     width: 35%;
+     left: 0;
+     right: 0;
+     margin-inline: auto;
+     visibility: hidden;
+     cursor: pointer;
+}
+
+#menubutton1 {
+     bottom: 30%;
+}
+
+#menubutton2{
+     bottom: 20%;
+}
+
+#menubutton1:hover, #menubutton2:hover {
+     background-color: rgb(56, 56, 56);
+}
+
+#intro {
+     visibility: hidden;
+     background-color: black;
+     color: whitesmoke;
+     left: 0;
+     top: 0;
+     position: absolute;
+     height: 100%;
+     width: 100%;
+     z-index: 1;
+     cursor: alias;
+}
+
+#intro2 {
+     visibility: hidden;
+     background-color: black;
+     color: whitesmoke;
+     left: 0;
+     top: 0;
+     position: absolute;
+     height: 100%;
+     width: 100%;
+     z-index: 1;
+     cursor: alias;
+}
+
+#intro3 {
+     visibility: hidden;
+     background-color: black;
+     color: whitesmoke;
+     left: 0;
+     top: 0;
+     position: absolute;
+     height: 100%;
+     width: 100%;
+     z-index: 1;
+     cursor: alias;
+}
+
+#intro4 {
+     visibility: hidden;
+     background-color: black;
+     color: whitesmoke;
+     left: 0;
+     top: 0;
+     position: absolute;
+     height: 100%;
+     width: 100%;
+     z-index: 1;
+     cursor: alias;
+     opacity: 1;
+     transition: opacity 500ms ease-in-out;
+}
+
+.intra h1 {
+     font-family: PixelSans, 'Courier New';
+     bottom: 5%;
+     position: absolute;
+     left: 0;
+     right: 0;
+     margin-inline: auto;
+     font-size: 60px;
+      width: 100%;
+     text-align: center;
+}
+
+#gazeta {
+     position: absolute;
+     height: 100%; width: 100%;
+     top: 0;
+     left: 0;
+     background-color: black;
+     cursor: alias;
+     transition: opacity 500ms ease-in-out;
+     visibility: hidden;
+     opacity: 1;
+}
+#gazeta img {
+     position: absolute;
+     height: 100%;
+     left: 0; right: 0;
+     margin-inline: auto;
+}
+
+#biuro {
+     visibility: hidden;
+     opacity: 0;
+     position: absolute;
+     height: 100%; width: 100%;
+     top: 0;
+     transition: opacity 600ms ease-in;
+     left: 0;
+}
