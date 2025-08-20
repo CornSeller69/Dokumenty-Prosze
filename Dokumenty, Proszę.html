@@ -13,12 +13,12 @@
           <br><h1>ALPHA3 playtest. Spodziewaj się błędów! Wiele assetów jest tymczasowe/niedopracowane.</h1><br><br><br>
           <p style="font-family: 'PixelSansBold';">Kliknij gdziekolwiek, aby kontynuować...</p>
      </div>
-     <div id="main-menu">
+     <div id="main-menu" ondblclick="skipTitlefall()">
           <img src="Materials/logo.png" alt="Dokumenty, Proszę!" id="logo">
           <button id="menubutton1" onclick="showIntro()">Graj</button>
           <a style="height: 100%; width: 100%; text-decoration: none; color: whitesmoke;" href="https://github.com/CornSeller69/Dokumenty-Prosze" target="_blank" id="button2href"><button id="menubutton2">GitHub</button></a> <!-- zmień link jak już ustawisz repo btw -->
           <p style="position: absolute; left: 10px; bottom: -3px; font-family: monospace; color: darkolivegreen;" onclick="secret2()">CornSeller</p>
-          <p style="position: absolute; right: 10px; bottom: -3px; font-family: monospace; color: darkolivegreen;">v0.3 (Alpha)</p> <!-- ZMIENIAJ WERSJE Z KAŻDĄ WIĘKSZĄ ZMIANĄ!!!!!!!!!!!!!! -->
+          <p style="position: absolute; right: 10px; bottom: -3px; font-family: monospace; color: darkolivegreen;">v0.4 (Alpha)</p> <!-- ZMIENIAJ WERSJE Z KAŻDĄ WIĘKSZĄ ZMIANĄ!!!!!!!!!!!!!! -->
      </div>
      <div id="intro" class="intra" onclick="switchIntro(1)">
           <img src="Materials/LOTERIA.png" style="height: 60%; left: 0; right: 0; margin-inline: auto; top: 0; position: absolute;">
@@ -37,8 +37,8 @@
           <h1>Zostałeś przydzielony do pracy w punkcie granicznym między Ostaszewem, a Ciechocinkiem. Znajduje się w pobliżu wsi Otłoczyn w dawnym punkcie obsługi autostradowiczów.</h1>
      </div>
      <div id="gazeta" onclick="closeGazette()"><img src="Materials/gazety/gazeta1.png" alt="Gazeta..."></div>
-
-          <section id="biuro">
+      <!------------------------------------GAME-SECTION----------------------------------->
+                <section id="biuro">
             <section id="topbar">
                   <h1 id="topheader">Loading...</h1>
             </section>
@@ -85,6 +85,11 @@
                   <section id="stampPopup"><button onclick="closeSPopup()" id="popupb0">ZAMKNIJ</button><br><br><br><br><button onclick="issueStamp(true)" id="popupb1">Przyznaj Wizę</button><br><button onclick="issueStamp(false)" id="popupb2">Odmów Wizę</button></section>
                   <section id="dialog-box"><!--<h1 id="dialog-actor">Placeholder Actor</h1><p id="dialog-words">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptate ab, reiciendis distinctio labore porro optio. Sit illum esse dicta exercitationem, quisquam dignissimos explicabo beatae dolorum, minus libero repellat eveniet numquam!</p>--></section>
                   <button id="passport-opener" onclick="showPass()">Zobacz Dokumenty</button>
+                  <section id="entrypass">
+                        <h1>BILET WSTĘPU DO CIECHOCINKA</h1>
+                        <h3 id="entrypdate" style="font-family: 'Courier New';">Na datę: ERROR</h3>
+                        <h2 style="position: absolute; bottom: 0; margin-inline: auto; left: 0; right: 0;">:: Ministerstwo Ochrony Granicy ::</h2>
+                  </section>
                   <section id="passport">
                         <section id="pass2">
                               <section id="passimgs"><br><img src="Materials/people/green-mug.png" alt="ludek." id="pass-pic" draggable="false"><br><img src="Materials/people/visastamp.png" draggable="false" alt="VISA"></section>
@@ -105,7 +110,6 @@
                   </section>
             </section>
       </section>
-     </div>
 </body>
 <script src="Sources/values.js"></script>
 <script src="Sources/main.js"></script>
