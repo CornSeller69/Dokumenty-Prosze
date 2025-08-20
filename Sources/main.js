@@ -84,9 +84,12 @@ function closeGazette() {
      document.getElementById('biuro').style.visibility = 'visible';
      document.getElementById('biuro').style.opacity = 1;
      updateTopBar(); petentUpd();
+
+          // THIS IS WHERE YOU PUT THE AMBIENT, DUMBASS.
           ambience1.currentTime = 0; ambience3.currentTime = 0;
-            ambience1.volume = 0.1; ambience3.volume = 0.11;
-            ambience1.play(); ambience3.play();
+          ambience1.volume = 0.1; ambience3.volume = 0.11;
+          ambience1.play(); ambience3.play();
+          // CAUSE I KNOW YOU WILL SEARCH FOR IT LATER FOR STOPPING/PLAYING WITH HOW SHITFULLY YOU MANAGED THIS. CONGRATS.
 }
 
 
