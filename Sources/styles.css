@@ -165,7 +165,7 @@ body {
      text-align: center;
 }
 
-#gazeta {
+#gazeta,#gazeta2 {
      position: absolute;
      height: 100%; width: 100%;
      top: 0;
@@ -176,11 +176,14 @@ body {
      visibility: hidden;
      opacity: 1;
 }
-#gazeta img {
+#gazeta img,#gazeta2 img {
      position: absolute;
      height: 100%;
      left: 0; right: 0;
      margin-inline: auto;
+}
+#gazeta2 {
+     z-index: 6;
 }
 
 #biuro {
@@ -191,4 +194,75 @@ body {
      top: 0;
      transition: opacity 600ms ease-in;
      left: 0;
+}
+
+#DaySummary {
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     top: 0;
+     left: 0;
+     z-index: 4;
+     visibility: hidden;
+     background-color: black;
+     color: white;
+     font-family: Courier;
+     text-align: center;
+     opacity: 0;
+     transition: opacity 1s;
+}
+#DaySummary h1 {
+      font-size: 60px;
+}
+#DaySummary h3:not(#endsaldo) {
+      visibility: hidden;
+      font-size: 35px;
+}
+#DaySummary #endsaldo {
+      visibility: hidden;
+      font-size: 30px;
+}
+#DaySummary table {
+      margin: 0 auto;
+      font-size: 28px;
+      border: 2px solid white;
+}
+
+#gosleepb {
+      position: absolute;
+      left: 0; right: 0; margin-inline: auto;
+      bottom: 3%;
+      height: 5%;
+      width: 20%;
+      font-size: 30px;
+      background-color: black;
+      border: 3px solid white;
+      color: white;
+}
+#gosleepb:hover {
+      background-color: rgb(56, 56, 56);
+      cursor: pointer;
+}
+
+.brokegameovers {
+     background-color: black;
+     color: whitesmoke;
+     left: 0;
+     top: 0;
+     position: absolute;
+     height: 100%;
+     width: 100%;
+     visibility: hidden;
+     cursor: alias;
+}
+.brokegameovers h1 {
+      font-family: PixelSans, 'Courier New';
+     bottom: 5%;
+     position: absolute;
+     left: 0;
+     right: 0;
+     margin-inline: auto;
+     font-size: 60px;
+      width: 100%;
+     text-align: center;
 }

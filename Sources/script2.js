@@ -1,5 +1,5 @@
-// REMEMBER: Ustaw jakiś normalny odtwarzacz ambientu po skończeniu prac!!
-/*let amb = false;
+
+let amb = false;
 function playAm() {
       if (!amb) {
             ambience1.currentTime = 0; ambience3.currentTime = 0;
@@ -9,7 +9,8 @@ function playAm() {
       }
       updateTopBar();
       petentUpd();
-}*/
+      updateGuideBook();
+}
 
 // USE AT BEGINNING OF DAYS!!
 function updateTopBar() {
@@ -57,15 +58,23 @@ function walkAway() {
       petent.style.transform = "rotate(-10deg)";
 }
 
-// beta feature, might change/remove
 function showPass() {
       document.getElementById("passport-opener").style.visibility = 'hidden';
       document.getElementById("dialog-box").style.visibility = 'hidden';
       document.getElementById("passport").style.visibility = 'visible';
+      if (currentDay >= 3 && hasEntryTicket == true && nation !== "Unia Ciechocińska") {
+            document.getElementById("entrypass").style.visibility = 'visible';
+      } else if (currentDay >= 3 && hasEntryTicket == true && nation == "Unia Ciechocińska") {
+            document.getElementById("citizenid").style.visibility = 'visible';
+      }
 }
 function hidePass() {
       document.getElementById("passport").style.visibility = 'hidden';
       document.getElementById("passport-opener").style.visibility = 'visible';
+      if (currentDay >= 3) {
+            document.getElementById("entrypass").style.visibility = 'hidden';
+            document.getElementById("citizenid").style.visibility = 'hidden';
+      }
 }
 
 function openGuide() {
@@ -111,7 +120,7 @@ function loadGuidePages() {
                         <br><b>Własność Ministerstwa Ochrony Granicy<br>Wydano: 01.01.1984</b>`;
                   page2.innerHTML = pb2 + `<br>
                   Witajcie Inspektorze! Ten poradnik powie wam o wszystkich ważnych aspektach pracy na tym stanowisku. Poniżej jest spis treści:<br><br>
-                  <b>I: Ogląd Biura<br>II: Dane na Dokumentach<br>III: Traktowanie Petentów<br>IV: Wykroczenia i pouczenie</b>` + newChapters;
+                  <b>I: Ogląd Biura<br>II: Dane na Dokumentach<br>III: Traktowanie Petentów<br>IV: Wykroczenia i pouczenie` + newChapters + `</b>`;
                   break;
             case 2:
                   page1.innerHTML = pb1 + `<br>
@@ -131,7 +140,7 @@ function loadGuidePages() {
                   Pamiętajcie! Traktujcie każdego Petenta jako potencjalne zagrożenie! Każde, choćby małe niedopatrzenie może kosztować życie naszych cywilów!<br>
                   Używając mikrofonu wzywajcie petentów do waszego biura. Każdy petent musi przedstawić wszystkie wymagane dokumenty na dany dzień (poprzednia strona). Również, co jakiś czas wprowadzane mogą być specyficzne regulacje co do wpuszczania poszczególnych osób.<br><br>
                   <b>Obecne zasady wpuszczania petentów:</b><br>` + entryRules + `<br><br>
-                  Niektórzy petenci jednakże mogą otrzymać specjalne traktowanie (Nie potrzebują innych dokumentów oprócz paszportu oraz swojej legitymacji). Należą do nich Dyplomaci oraz Osoby poszukujące Azylu politycznego w Ciechocinku.`;
+                  Niektórzy petenci jednakże mogą otrzymać specjalne traktowanie (Nie potrzebują innych dokumentów oprócz swojej legitymacji). Należą do nich Dyplomaci oraz Osoby poszukujące Azylu politycznego w Ciechocinku.`;
                   page2.innerHTML = pb2 + `<br>
                   <b>IV: Wykroczenia i pouczenie</b><br><br>
                   Jeżeli zdarzy się, że rzeczywiście popełniliście błąd podczas sprawdzania petenta, otrzymacie pouczenie w formie ostrzeżenia. Ostrzeżenie będzie zawierało wszystkie wykroczenia jakie popełniliście.<br>
@@ -151,11 +160,11 @@ function loadGuidePages() {
                         - Ciechocinek, Raciążek, Lubicz Dolny<br>
                         2. Księstwo Ostaszewskie:<br>
                         - Toruń, Łysomice, Papowo Ostaszewskie<br>
-                        3. Hrabstwo Włocławskie:<br>
+                        3. Federacja Włocławska:<br>
                         - Włocławek, Szpetal Górny, Kowal<br>
-                        4. Obwód Lipnowski:<br>
+                        4. Hrabstwo Lipnowskie:<br>
                         - Lipno, Biskupin<br>
-                        5. Księstwo Golub-Dobrzyń:<br>
+                        5. Hrabstwo Golubsko-Dobrzyńskie:<br>
                         - Bielsk, Ciechocin<br>
                         6. Wielki Inowrocław:<br>
                         - Inowrocław, Bydgoszcz, Solec Kujawski`;
@@ -188,7 +197,8 @@ function openBulletin() {
                         break;
                   case 2:
                         content.innerHTML = `Biuletyn na datę 02.01.1984<br><br>Inspektorze! Po wczorajszym sukcesie granicy stwierdziliśmy, że nadszedł czas otworzyć kraj w pełni!<br>
-                        Możecie od teraz wpuszczać Obcokrajowców, pod warunkiem, że mają przy sobie paszport, który nie stracił jeszcze ważności.<br><br>
+                        Możecie od teraz wpuszczać Obcokrajowców, pod warunkiem, że mają przy sobie paszport, który nie stracił jeszcze ważności.<br>
+                        Wasz poradnik otrzymał nowy wpis na temat krajów, z jakich zezwalamy na wstęp ludności.<br><br>
                         W przypadku, problemów, wlepcie pieczątkę odmowy, a jeżeli będzie więcej problemów, wciśnijcie przycisk alarmu w waszym biurze.<br><br>Niech żyje Unia Ciechocińska!`;
                         break;
                   case 3:
@@ -230,8 +240,12 @@ function closeTranscript() {
 }
 
 function toggleGate() {
-      sfx_shutter.currentTime = 0;
-      sfx_shutter.play();
+      if (playShutter) {
+            playShutter = false;
+            setTimeout(function() {playShutter = true;},3001);
+            sfx_shutter.currentTime = 0;
+            sfx_shutter.play();
+      }
       switch(shutterOpen) {
             case false:
                   document.getElementById("gate-switch").src = 'Materials/items/turn-off.png';
@@ -273,41 +287,44 @@ function checkMistakes() {
             walkAway();
             if (shouldEnter) {
                   if(approvedEntry) {
-                        money = money + 5;
-                        if (petentsLeft == 0) {endWorkDay();}
+                        amtEntered++;
+                        money = money + 5; earns += 5;
+                        if (petentsLeft == 0) {endWorkDay('');}
                   } else if (!approvedEntry) {
+                        amtDenied++;
                         cite(`Petent miał wszystko zgodne, powinien był być wpuszczony.`);
-                        wykroczenia++;
                         checkWyk();
                   }
             } else if (!shouldEnter) {
                   if (beenArrested) {
+                        amtArrested++;
                         if (!shouldArrested) {
                               cite(`Bezpodstawnie aresztowano petenta.`);
-                              wykroczenia++;
                               checkWyk();
                         } else if (shouldArrested) {
-                              money = money + 5;
-                              if (petentsLeft == 0) {endWorkDay();}
+                              money = money + 5; earns += 5;
+                              if (petentsLeft == 0) {endWorkDay('');}
                         }
                   }
                   if(!approvedEntry) {
-                        money = money + 5;
-                        if (petentsLeft == 0) {endWorkDay();}
+                        amtDenied++;
+                        money = money + 5; earns += 5;
+                        if (petentsLeft == 0) {endWorkDay('');}
                   } else if (approvedEntry) {
+                        amtEntered++;
                         cite(`Niezgodne dane na dokumentach: ` + niezgodne);
-                        wykroczenia++;
                         checkWyk();
                   }
             }
       } else {
-            if (events[0]) {
-                  event_disptOst();
-            }
+            if (events[0] == true) {event_disptOst();}
+            if (events[1] == true) {event_suicideDay2();}
       }
 }
 
 function cite(c) {
+      wykroczenia++;
+      amtWykrocz++;
       updateTopBar();
       sfx_print.currentTime = 0;
       sfx_print.play();
@@ -330,25 +347,23 @@ function cite(c) {
 function closeCite() {
       document.getElementById("citation").style.visibility = 'hidden';
       document.getElementById("citation").style.bottom = '-60%';
-      if (petentsLeft == 0) {endWorkDay();}
+      if (petentsLeft == 0) {endWorkDay('');}
 }
 
 function checkWyk() {
-      console.log(wykroczenia);
-      updateTopBar();
       let hh = document.getElementById("cite-penalty");
       if (wykroczenia >= 3) {
-            money = money - 5; // refine later idk
+            money = money - 5;  earns -= 5;
             hh.innerHTML = 'Grzywna: 5 złotych';
-      } else if (wykroczenia = 1) {
+      } else if (wykroczenia == 1) {
             hh.innerHTML = 'Grzywna: Wydano ostrzeżenie';
-      } else if (wykroczenia = 2) {
+      } else if (wykroczenia == 2) {
             hh.innerHTML = 'Grzywna: Ostatnie ostrzeżenie!';
       }
 }
 
 function callGuards() {
-      if (!boothEmpty) {
+      if (!boothEmpty && currentDay >= 5) {
             beenArrested = true;
             sfx_alarm.currentTime = 0;
             sfx_alarm.play();
@@ -361,6 +376,9 @@ function callGuards() {
                         <p id="dialog-words">Wyłaź stamtąd!</p><button onclick="arrestProcess()">DALEJ...</button>`; // zrób tak aby arrestProcess() działało :trollface4k:
                   currentTranscript = currentTranscript + `<p style="color:cadetblue;">Wyłaź stamtąd!</p>`;
             },2500);
+      } else if (currentDay < 5) {
+            sfx_nobuzz.currentTime = 0;
+            sfx_nobuzz.play();
       }
 }
 
@@ -403,18 +421,187 @@ function event1_6_talk(ab) {
                   eventWillHappen = false; events[0] = false;   // brochacho just remember to reset events, this shit can break weirdly lmfao :P
                   document.getElementById("dialog-box").style.visibility = 'hidden';
                   setTimeout(function() {boothEmpty = true;},2222);
-                  money = money + 5;
+                  money = money + 5; earns += 5;
                   walkAway();
                   break;
       }
 }
 
-function endWorkDay() {
-      sfx_foghorn.currentTime = 0; sfx_foghorn.play();
-      console.warn("Koniec dnia pracy!");
-      setTimeout(function(){
-            document.getElementById("playtest-wall").style.visibility = 'visible';
-            document.getElementById("playtest-wall").style.opacity = 1;                   // All this is temporary btw..
-            mus_death.currentTime = 0; mus_death.play();
-      },1100);
+function event_suicideDay2() {
+      walkAway();
+      events[1] = false; eventWillHappen = false;
+      setTimeout(function() {
+            sfx_talk3.currentTime = 0;
+            sfx_talk3.play();
+            document.getElementById("dialog-box").style.visibility = 'visible';
+            document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                        <p id="dialog-words">CHWAŁA OSTASZEWO!</p><button onclick="event2_suicide()">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">CHWAŁA OSTASZEWO!</p>`;
+      },5000);
+}
+function event2_suicide() {
+      document.getElementById("dialog-box").style.visibility = 'hidden';
+      sfx_boom.currentTime = 0;
+      sfx_boom2.currentTime = 0;
+      sfx_boom2.play();
+      sfx_boom.play();
+      if (shutterOpen) {sfx_shutter.volume = 0.3; toggleGate();}
+      setTimeout(function() {
+            sfx_siren.currentTime = 0; sfx_siren.play();
+            sfx_panic.currentTime = 0; sfx_panic.play();
+            ambience1.pause();
+            endWorkDay('Dzień pracy zakończono wcześniej ze względu na atak terrorystyczny.');
+            sfx_shutter.volume = 1;
+      },400);
+}
+
+
+function endWorkDay(ccc) {
+      if (currentDay !== 2) {sfx_foghorn.currentTime = 0; sfx_foghorn.play();}
+      setTimeout(function() {
+            boothEmpty = true;
+            sfx_siren.pause();
+            ambience1.pause(); ambience3.pause();
+            mus_mainmenu.currentTime = 0; mus_mainmenu.play();
+            console.warn("Koniec dnia pracy!");
+            document.getElementById("endinfos").innerHTML = ccc;
+            document.getElementById("enddtitle").innerHTML = 'DZIEŃ ' + currentDay;
+            document.getElementById("citaearns").innerHTML = 'Wykroczenia: ' + wykroczenia + '   Zarobiono: ' + earns;
+            document.getElementById("endrent").innerHTML = rent;
+            document.getElementById("endfood").innerHTML = food;
+            document.getElementById("endheat").innerHTML = heat;
+            money = money - rent - food - heat;
+            document.getElementById("endsaldo").innerHTML = 'Łączne saldo: ' + money;
+            
+            document.getElementById("DaySummary").style.visibility = 'visible';
+            document.getElementById("DaySummary").style.pointerEvents = 'auto';
+            document.getElementById("DaySummary").style.opacity = 1;
+            setTimeout(function() {
+                  sfx_stamp.currentTime = 0; sfx_stamp.play();
+                  document.getElementById("citaearns").style.visibility = 'visible';
+                  setTimeout(function() {
+                        sfx_stamp.currentTime = 0; sfx_stamp.play();
+                        document.getElementById("endstable").style.visibility = 'visible';
+                        setTimeout(function() {
+                              sfx_stamp.currentTime = 0; sfx_stamp.play();
+                              document.getElementById("endsaldo").style.visibility = 'visible';
+                              setTimeout(function() {
+                                    sfx_stamp.currentTime = 0; sfx_stamp.play();
+                                    document.getElementById("gosleepb").style.visibility = 'visible';
+                              },500);
+                        },500);
+                  },500);
+            },500);
+      },5000);
+      document.getElementById("gazeta2").style.opacity = 1;
+}
+function nextDay() {
+      if (money < 0) {gameover(0);} else {
+            currentDay++;
+            petentsLeft = 8;
+            wykroczenia = 0;
+            currentTranscript = ``;
+            earns = 0;
+            updateTopBar();
+            petentUpd();
+            updateGuideBook();
+            document.getElementById("DaySummary").style.opacity = 0;
+            document.getElementById("gazeta2").style.visibility = 'visible';
+            let sauce = "Materials/gazety/gazeta" + currentDay + ".png";
+            document.getElementById('gazetaimg').src = sauce;
+            setTimeout(function() {
+                  document.getElementById("DaySummary").style.visibility = 'hidden';
+                  document.getElementById("DaySummary").style.pointerEvents = 'none';
+                  document.getElementById("citaearns").style.visibility = 'hidden';
+                  document.getElementById("endstable").style.visibility = 'hidden';
+                  document.getElementById("endsaldo").style.visibility = 'hidden';
+                  document.getElementById("gosleepb").style.visibility = 'hidden';
+            },1000);
+      }
+}
+function closeGazette2() {
+     document.getElementById('gazeta2').style.opacity = 0;
+     //document.getElementById('gazeta').style.pointerEvents = 'none';
+     mus_mainmenu.Volume = 0.9;
+     setTimeout(function() {mus_mainmenu.Volume = 0.9;}, 200);
+     setTimeout(function() {mus_mainmenu.Volume = 0.7;}, 400);
+     setTimeout(function() {mus_mainmenu.Volume = 0.5;}, 600);
+     setTimeout(function() {mus_mainmenu.Volume = 0.3;}, 800);
+     setTimeout(function() {mus_mainmenu.Volume = 0.1; document.getElementById('gazeta2').style.visibility = 'hidden';}, 1000);
+     setTimeout(function() {mus_mainmenu.pause();}, 1200);
+     setTimeout(function() {
+               document.getElementById('gazeta2').style.opacity = 0;
+     }, 500);
+     document.getElementById('biuro').style.visibility = 'visible';                       // ngl this is all just a copypaste            lol
+          ambience1.currentTime = 0; ambience3.currentTime = 0;                                     // i clearly see this shit doesnt make sense
+          ambience1.play(); ambience3.play();
+}
+
+function updateGuideBook() {
+      if (currentDay >= 2) {
+            reqDoc = `<b>Ciechocinianie:</b><br>
+            1. Paszport<br>
+            <br><b>Obcokrajowcy:</b><br>
+            1. Paszport<br>
+            <br><b>Dyplomaci:</b><br>
+            1. Paszport<br>
+            <br><b>Azylanci:</b><br>
+            Nie przyjmujemy obecnie azylantów.`;
+            newChapters = `<br>V. Mapa narodów`;
+            entryRules = `1. Wszystkie dokumenty muszą być aktualne`;
+      }
+      if (currentDay >= 3) {
+            reqDoc = `<b>Ciechocinianie:</b><br>
+            1. Paszport<br>
+            2. Dowód Osobisty<br>
+            <br><b>Obcokrajowcy:</b><br>
+            1. Paszport<br>
+            2. Bilet Wstępu<br>
+            <br><b>Dyplomaci:</b><br>
+            1. Legitymacja dyplomatyczna<br>
+            <br><b>Azylanci:</b><br>
+            Nie przyjmujemy obecnie azylantów.`;
+            entryRules = `1. Wszystkie dokumenty muszą być aktualne<br>2. Ciechocinianie muszą mieć Dowód osobisty<br>3. Obcokrajowcy muszą mieć Bilet wstępu`;
+      }
+}
+
+function gameover(typ) {
+      document.getElementById("finisheddays").innerHTML = currentDay;
+      document.getElementById("entereds").innerHTML = amtEntered;
+      document.getElementById("denieds").innerHTML = amtDenied;
+      document.getElementById("arresteds").innerHTML = amtArrested;
+      document.getElementById("wykroczs").innerHTML = amtWykrocz;
+
+      mus_mainmenu.pause();
+      mus_death.currentTime = 0; mus_death.play();
+      document.getElementById("DaySummary").style.opacity = 0;
+      setTimeout(function() {
+                  document.getElementById("DaySummary").style.visibility = 'hidden';
+                  document.getElementById("DaySummary").style.pointerEvents = 'none';
+            },1000);
+      switch(typ) {
+            case 0:
+                  document.getElementById("broke1").style.visibility = "visible";
+                  break;
+      }
+}
+function switchBroke(a) {
+      switch(a) {
+            case 1:
+                  document.getElementById("broke1").style.visibility = "hidden";
+                  document.getElementById("brokegameover2").style.visibility = "visible";
+                  break;
+            case 2:
+                  document.getElementById("brokegameover2").style.visibility = "hidden";
+                  document.getElementById("brokegameover3").style.visibility = "visible";
+                  break;
+            case 3:
+                  document.getElementById("brokegameover3").style.visibility = "hidden";
+                  document.getElementById("brokegameover4").style.visibility = "visible";
+                  break;
+            case 4:
+                  setTimeout(function() {document.getElementById("brokegameover4").style.visibility = "hidden";},5000);
+                  document.getElementById("gameSummary").style.visibility = "visible";
+                  document.getElementById("gameSummary").style.opacity = 1;
+      }
 }

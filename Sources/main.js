@@ -1,18 +1,28 @@
 function showMainMenu() {
-     let logo1 = document.getElementById('logo');
-     document.getElementById('enter-thought').style.visibility = 'hidden';
-     document.getElementById('main-menu').style.visibility = 'visible';
-     mus_mainmenu.play();
+     if (!skipTitle) {
+          let logo1 = document.getElementById('logo');
+          document.getElementById('enter-thought').style.visibility = 'hidden';
+          document.getElementById('main-menu').style.visibility = 'visible';
+          mus_mainmenu.play();
      
-     let topPosition = parseInt(logo1.style.top.replace('%', '')) || 100; // \
-     topPosition -= 5;                                                                                           //   } It looks like there are a couple of issues with your code that could be causing the problem: The style.top property should be a string with a unit, but in the showMainMenu function, it is being subtracted directly from another string, which won't work as intended.Also, logo1.style.top - '5%' should be parseInt(logo1.style.top) - 5 + '%' or a similar approach to ensure the math operation is valid.
-     logo1.style.top = topPosition + '%';                                                          // /
+          let topPosition = parseInt(logo1.style.top.replace('%', '')) || 100; // \
+          topPosition -= 5;                                                                                           //   } It looks like there are a couple of issues with your code that could be causing the problem: The style.top property should be a string with a unit, but in the showMainMenu function, it is being subtracted directly from another string, which won't work as intended.Also, logo1.style.top - '5%' should be parseInt(logo1.style.top) - 5 + '%' or a similar approach to ensure the math operation is valid.
+          logo1.style.top = topPosition + '%';                                                          // /
 
-     let logolift = setInterval(function() {
-          topPosition -= 5;
-          logo1.style.top = topPosition + '%';
-          if(logo1.style.top == '20%') {clearInterval(logolift); beginLogojump();}
-     }, 1190);
+          let logolift = setInterval(function() {
+               if (!skipTitle) {
+                    topPosition -= 5;
+                    logo1.style.top = topPosition + '%';
+                    if(logo1.style.top == '20%') {clearInterval(logolift); beginLogojump();}
+               } else if (skipTitle) {clearInterval(logolift); /* just in case*/}
+          }, 1190);
+     } 
+}
+function skipTitlefall() {
+     //clearInterval(logolift);
+     skipTitle = true;
+     document.getElementById('logo').style.top = '20%';
+     beginLogojump();
 }
 
 function beginLogojump() {
@@ -119,6 +129,6 @@ let clickeds = 0;
 function secret2() {
      clickeds++;
      if (clickeds >= 10) {
-          window.location.replace('Materials/temp/empty/bin/nothinghere/bro/stop/funny.png');
+          window.location.assign('Materials/temp/empty/bin/nothinghere/bro/stop/funny.png');
      }
 }

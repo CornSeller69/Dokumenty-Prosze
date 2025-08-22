@@ -1,10 +1,11 @@
 let entrants = [];
 let petentSrcs = [
       'Materials/people/green1.png', 'Materials/people/green2.png', 'Materials/people/green3.png',
-      'Materials/people/purple1.png', 'Materials/people/purple2.png'
-]; //petents to choose from. 0, 1, 2 = green; 3, 4 = purple;
-let petentDocSrcs = ['Materials/people/green-mug.png', 'Materials/people/purple-mug.png'
-]; // 0 = green, 1 = purple,
+      'Materials/people/purple1.png', 'Materials/people/purple2.png',
+      'Materials/people/red1.png', 'Materials/people/red2.png', 'Materials/people/red3.png'
+]; //petents to choose from. 0, 1, 2 = green; 3, 4 = purple; 5, 6, 7 = red;
+let petentDocSrcs = ['Materials/people/green-mug.png', 'Materials/people/purple-mug.png', 'Materials/people/red-mug.png'
+]; // 0 = green, 1 = purple, 2 = red,
 
 function petentUpd() {
       // Petent Setup for specific days
@@ -13,9 +14,14 @@ function petentUpd() {
                   entrants = ['random1', 'random1', 'random1', 'random1', 'random1', 'disptd-osta', 'random1', 'random1'];
                   break;
             case 2:
-                  entrants = ['random', 'random', 'random', 'random', 'random', 'suicide-bomber'];
+                  entrants = ['random2', 'random2', 'random2', 'random2', 'random2', 'random2', 'suicide-bomber'];
                   break;
-
+            case 3:
+                  entrants = ['random3', 'random3', 'random3', 'random3', 'random3', 'random3', 'random3', 'random3'];
+                  break;
+            case 4:
+                  entrants = ['random3', 'day4noentry', 'random3', 'random3', 'day4diplomat', 'random3', 'random3', 'random3'];
+                  break;
             default:
                   entrants = ['random', 'random', 'random', 'random', 'random', 'random', 'random', 'random'];
                   break;
@@ -25,6 +31,8 @@ function petentUpd() {
 function petentMaker() {
       currentPetent = 8 - petentsLeft;
       currentPType = entrants[currentPetent];
+
+      shouldEnter = true; shouldArrested = false; // for resetting..
       
       switch (currentPType) {
             case 'random1':
@@ -52,19 +60,64 @@ function petentMaker() {
                   birthFisher();
                   mugFisher();
                   nation = 'Księstwo Ostaszewskie';
-                  IssCity = 'Łysomice';
+                  cityFisher();
                   getUnexpired();
                   shouldEnter = false; shouldArrested = false;
                   niezgodne = 'Nie wpuszczamy obcokrajowców.'
                   events[0] = true;
                   eventWillHappen = true;
                   break;
+            case 'random2':
+                  nameFisher();
+                  birthFisher();
+                  mugFisher();
+                  Math.random() < 0.95 ? nationFisher() : getFakeNation();
+                  Math.random() < 0.7 ? getUnexpired() : getExpired();
+                  break;
+            case 'suicide-bomber':
+                  name = "Alan"; surname = "Fisher";
+                  birthFisher();
+                  document.getElementById("petent").src = petentSrcs[6];
+                  document.getElementById("pass-pic").src = petentDocSrcs[2];
+                  nation = 'Księstwo Ostaszewskie';
+                  IssCity = 'Łysomice';
+                  getUnexpired();
+                  shouldEnter = true;
+                  events[1] = true;
+                  eventWillHappen = true;
+                  break;
+            case 'random3':
+                  nameFisher();
+                  birthFisher();
+                  mugFisher();
+                  Math.random() < 0.95 ? nationFisher() : getFakeNation();
+                  Math.random() < 0.7 ? getUnexpired() : getExpired();
+                  Math.random() < 0.8 ? document.getElementById("entrypdate").innerHTML =  `Na datę: ` + data : getFakeEntryDate();
+                  break;
+            case 'day4noentry':
+                  nameFisher();
+                  birthFisher();
+                  mugFisher();
+                  nation = 'Federacja Włocławska';
+                  hasEntryTicket = false;
+                  cityFisher();
+                  getUnexpired();
+                  shouldEnter = false; shouldArrested = false;
+                  niezgodne = 'Petent nie posiadał Biletu Wstępu.'
+                  events[2] = true;
+                  eventWillHappen = true;
+                  break;
+            case 'day4diplomat':
+                  break;
       }
 
       document.getElementById("passname").innerHTML = name + " " + surname;
+      document.getElementById("idname").innerHTML = name + " " + surname;
       document.getElementById("passbirth").innerHTML = birth;
+      document.getElementById("idbirth").innerHTML = birth;
       document.getElementById("passnat").innerHTML = nation;
       document.getElementById("passcity").innerHTML = IssCity;
+      
       //document.getElementById("passexp").innerHTML = expiration;  ----  depracated
 }
 
@@ -91,24 +144,68 @@ function mugFisher() {
       switch (abc) {
             case 0:
                   document.getElementById("pass-pic").src = petentDocSrcs[0];
+                  document.getElementById("idimg").src = petentDocSrcs[0];
                   break;
             case 1:
                   document.getElementById("pass-pic").src = petentDocSrcs[0];
+                  document.getElementById("idimg").src = petentDocSrcs[0];
                   break;
             case 2:
                   document.getElementById("pass-pic").src = petentDocSrcs[0];
+                  document.getElementById("idimg").src = petentDocSrcs[0];
                   break;
             case 3:
                   document.getElementById("pass-pic").src = petentDocSrcs[1];
+                  document.getElementById("idimg").src = petentDocSrcs[1];
                   break;
             case 4:
                   document.getElementById("pass-pic").src = petentDocSrcs[1];
+                  document.getElementById("idimg").src = petentDocSrcs[1];
+                  break;
+            case 5:
+                  document.getElementById("pass-pic").src = petentDocSrcs[2];
+                  document.getElementById("idimg").src = petentDocSrcs[2];
+                  break;
+            case 6:
+                  document.getElementById("pass-pic").src = petentDocSrcs[2];
+                  document.getElementById("idimg").src = petentDocSrcs[2];
+                  break;
+            case 7:
+                  document.getElementById("pass-pic").src = petentDocSrcs[2];
+                  document.getElementById("idimg").src = petentDocSrcs[2];
                   break;
 
             default:
                   document.getElementById("pass-pic").src = 'Materials/temp/empty/bin/nothinghere/bro/stop/funny.png';
                   break;
       }
+}
+function nationFisher() {
+      let abc = Math.floor(Math.random() * nations.length);
+      switch (abc) {
+            case 0:
+                  nation = 'Unia Ciechocińska';
+                  break;
+            case 1:
+                  nation = 'Księstwo Ostaszewskie';
+                  break;
+            case 2:
+                  nation = 'Hrabstwo Golubsko-Dobrzyńskie';
+                  break;
+            case 3:
+                  nation = 'Federacja Włocławska';
+                  break;
+            case 4:
+                  nation = 'Hrabstwo Lipnowskie';
+                  break;
+            case 5:
+                  nation = 'Wielki Inowrocław';
+                  break;
+            default:
+                  nation = "Demokratyczna Republika Korei";
+                  break;
+      }
+      cityFisher();
 }
 function cityFisher() {
       switch (nation) {
@@ -121,13 +218,13 @@ function cityFisher() {
             case 'Wielki Inowrocław':
                   IssCity = citiesInowr[Math.floor(Math.random() * 3)];
                   break;
-            case 'Obwód Lipnowski':
+            case 'Hrabstwo Lipnowskie':
                   IssCity = citiesLipno[Math.floor(Math.random() * 2)];
                   break;
-            case 'Księstwo Golub-Dobrzyń':
+            case 'Hrabstwo Golubsko-Dobrzyńskie':
                   IssCity = citiesGolD[Math.floor(Math.random() * 2)];
                   break;
-            case 'Hrabstwo Włocławskie':
+            case 'Federacja Włocławska':
                   IssCity = citiesWloc[Math.floor(Math.random() * 3)];
                   break;
             default:
@@ -147,12 +244,16 @@ function getExpired() {
             mm = '01';
             dd = Math.floor(Math.random() * 30) + 1;
             if (dd > currentDay) {dd = String(currentDay - 1);} else {dd = String(dd);}
+            if (dd < 10) {dd = "0" + dd;}
             h = dd + "." + mm + '.1984';
       }
       expiration = h;
       document.getElementById("passexp").innerHTML = expiration;
+      document.getElementById("idexp").innerHTML = expiration;
       console.log(expiration);
       isExpired = true;
+      shouldEnter = false; //idk just making sure
+      niezgodne = `Dokument stracił ważność`;
 }
 function getUnexpired() {
       let mm = Math.floor(Math.random() * 12) + 1;
@@ -164,6 +265,37 @@ function getUnexpired() {
       let h = dd + "." + mm + '.1984';
       expiration = h;
       document.getElementById("passexp").innerHTML = expiration;
+      document.getElementById("idexp").innerHTML = expiration;
       console.log(expiration);
       isExpired = false;
+}
+
+function getFakeNation() {
+      shouldEnter = false; shouldArrested = false;
+      niezgodne  = 'Nie wpuszczamy mieszkańców z tego kraju.';
+      let aa = Math.floor(Math.random() * 4);
+      switch (aa) {
+            case 0:
+                  nation = 'Stany Zjednoczone';
+                  IssCity = Math.random() < 0.5 ? 'Boston' : 'Waszyngton';
+                  break;
+            case 1:
+                  nation = 'Zachodnie Emiraty Niemieckie';
+                  IssCity = Math.random() < 0.5 ? 'Frankfurt' : 'Hamburg';
+                  break;
+            case 2:
+                  nation = 'Królestwo Mazowieckie';
+                  IssCity = Math.random() < 0.5 ? 'Warszawa' : 'Mińsk Maz.';
+                  break;
+            case 3:
+                  nation = 'III Cesarstwo Tybetańskie';
+                  IssCity = Math.random() < 0.5 ? 'Lhasa' : 'Xining';
+      }
+}
+
+function getFakeEntryDate() {
+      let pp = currentDay + Math.floor(Math.random() * 8);
+      if (pp >= 10) {pp = String(pp) + ".01.1984";} else {pp = "0" + String(pp) + ".01.1984";}
+      document.getElementById("entrypdate").innerHTML =  `Na datę: ` + pp;
+      shouldEnter = false; // just to be sure
 }
