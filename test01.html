@@ -5,16 +5,167 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="Sources/office.css">
       <title>Test 1</title>
+      <style>
+            #biuro {
+      height: 100%;
+      width: 100%;
+      position: fixed;
+}
+
+#DaySummary {
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     top: 0;
+     left: 0;
+     z-index: 4;
+     visibility: hidden;
+     background-color: black;
+     color: white;
+     font-family: Courier;
+     text-align: center;
+     opacity: 0;
+     transition: opacity 1s;
+}
+#DaySummary h1 {
+      font-size: 60px;
+}
+#DaySummary h3:not(#endsaldo) {
+      visibility: hidden;
+      font-size: 35px;
+}
+#DaySummary #endsaldo {
+      visibility: hidden;
+      font-size: 30px;
+}
+#DaySummary table {
+      visibility: hidden;
+      margin: 0 auto;
+      font-size: 28px;
+      border: 2px solid white;
+}
+
+#gosleepb {
+      position: absolute;
+      left: 0; right: 0; margin-inline: auto;
+      bottom: 3%;
+      height: 5%;
+      width: 20%;
+      font-size: 30px;
+      background-color: black;
+      border: 3px solid white;
+      color: white;
+      visibility: hidden;
+}
+#gosleepb:hover {
+      background-color: rgb(56, 56, 56);
+      cursor: pointer;
+}
+.brokegameovers {
+     background-color: black;
+     color: whitesmoke;
+     left: 0;
+     top: 0;
+     position: absolute;
+     height: 100%;
+     width: 100%;
+     visibility: hidden;
+     cursor: alias;
+}
+.brokegameovers h1 {
+      font-family: PixelSans, 'Courier New';
+     bottom: 5%;
+     position: absolute;
+     left: 0;
+     right: 0;
+     margin-inline: auto;
+     font-size: 60px;
+      width: 100%;
+     text-align: center;
+}
+#gazeta2 {
+     position: absolute;
+     height: 100%; width: 100%;
+     top: 0;
+     left: 0;
+     background-color: black;
+     cursor: alias;
+     transition: opacity 500ms ease-in-out;
+     visibility: hidden;
+     opacity: 1;
+     z-index: 6;
+}
+#gazeta2 img {
+     position: absolute;
+     height: 100%;
+     left: 0; right: 0;
+     margin-inline: auto;
+}
+      </style>
 </head>
 <body onclick="playAm()"> <!-- remove the onclick="playAm()" later on :skull: -->
       <section id="biuro">
             <section id="topbar">
                   <h1 id="topheader">Loading...</h1>
             </section>
+            <section id="DaySummary">
+                  <h1 id="enddtitle">DZIEŃ x</h1>
+                  <h2 id="endinfos">Dzień pracy xxxxxxxxxxxxxxxx</h2>
+                  <h3 id="citaearns">Wykroczenia: x   Zarobiono: x</h3>
+                  <table id="endstable">
+                        <tr>
+                              <th>Wydatki:</th>
+                              <th style="border-left: 2px solid white;">Potrącono:</th>
+                        </tr>
+                        <tr>
+                              <td>Czynsz</td>
+                              <td style="border-left: 2px solid white; color: red;" id="endrent">x</td>
+                        </tr>
+                        <tr >
+                              <td>Jedzenie</td>
+                              <td style="border-left: 2px solid white; color: red;" id="endfood">x</td>
+                        </tr>
+                        <tr>
+                              <td>Ogrzewanie</td>
+                              <td style="border-left: 2px solid white; color: red;" id="endheat">x</td>
+                        </tr>
+                  </table>
+                  <h3 id="endsaldo">Łączne saldo: x</h3>
+                  <button id="gosleepb" onclick="nextDay()">Idź spać</button>
+            </section>
+            <div id="gazeta2" onclick="closeGazette2()"><img src="Materials/gazety/gazeta1.png" alt="Gazeta..." id="gazetaimg"></div>
+            <section id="broke1" class="brokegameovers" onclick="switchBroke(1)" style="z-index: 3;">
+                  <img src="Materials/brokelol.png" style="height: 60%; left: 0; right: 0; margin-inline: auto; top: 0; position: absolute;">
+                  <h1>Skończyły się twojej rodzinie pieniądze!</h1>
+            </section>
+            <div id="brokegameover2" class="brokegameovers" onclick="switchBroke(2)" style="z-index: 3;">
+                  <img src="Materials/chained.png" style="height: 60%; left: 0; right: 0; margin-inline: auto; top: 0; position: absolute;">
+                  <h1>Każdy mąż w Ciechocinku musi móc utrzymać swoją rodzinę. Za karę zostajesz wysłany na przymusową pracę w obozie.</h1>
+            </div>
+            <div id="brokegameover3" class="brokegameovers" onclick="switchBroke(3)" style="z-index: 3;">
+                  <img src="Materials/Maps/czernikowo.png" style="height: 60%; left: 0; right: 0; margin-inline: auto; top: 0; position: absolute;">
+                  <h1>Twoją rodzinę przesiedlono spowrotem do Czernikowa.</h1>
+            </div>
+            <div id="brokegameover4" class="brokegameovers" onclick="switchBroke(4)" style="z-index: 3;">
+                  <img src="Materials/flaga-rezimu-krew.png" style="height: 60%; left: 0; right: 0; margin-inline: auto; top: 0; position: absolute;">
+                  <h1>Niech żyje Unia Ciechocińska!</h1>
+            </div>
+
+            <!-- SUMMARY ------------------------------------------------------------>
+            <section id="gameSummary">
+                  <h1 style="text-align: center;">Koniec gry!</h1><br>
+                  <table>
+                        <tr><th>Ukończone dni</th><td id="finisheddays" style="border-left: 2px solid white;"></td></tr>
+                        <tr><th>Przyznane wizy</th><td id="entereds" style="border-left: 2px solid white;"></td></tr>
+                        <tr><th>Odmówione wizy</th><td id="denieds" style="border-left: 2px solid white;"></td></tr>
+                        <tr><th>Aresztowania</th><td id="arresteds" style="border-left: 2px solid white;"></td></tr>
+                        <tr><th>Wykroczenia</th><td id="wykroczs" style="border-left: 2px solid white;"></td></tr>
+                  </table>
+                  <a href="Dokumenty, Proszę.html"><button>Powrót do Menu</button></a>
+            </section>
+            <!-- SUMMARY ------------------------------------------------------------>
+
             <section id="office">
-
-                  <section id="playtest-wall" style="background-color: black; position: absolute; z-index: 10; width: 100%; height: 100%; top: 0; left: 0; visibility: hidden;"><h1 style="font-size: 50px; text-align: center; color: white;"><br><br><br><br>KONIEC WERSJI ALPHA3<br>Dzięki za testowanie.</h1></section> <!--  TYMCZASOWE!!! USUNĄĆ PÓŹNIEJ!!!  -->
-
                   <img src="Materials/shutter.png" alt="CLOSED. OPEN SHUTTER." id="shutter" draggable="false">
                   <img src="Materials/people/green2.png" alt="person" id="petent" draggable="false">
                   <section class="boki" id="lewy">
@@ -54,6 +205,18 @@
                   <section id="stampPopup"><button onclick="closeSPopup()" id="popupb0">ZAMKNIJ</button><br><br><br><br><button onclick="issueStamp(true)" id="popupb1">Przyznaj Wizę</button><br><button onclick="issueStamp(false)" id="popupb2">Odmów Wizę</button></section>
                   <section id="dialog-box"><!--<h1 id="dialog-actor">Placeholder Actor</h1><p id="dialog-words">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptate ab, reiciendis distinctio labore porro optio. Sit illum esse dicta exercitationem, quisquam dignissimos explicabo beatae dolorum, minus libero repellat eveniet numquam!</p>--></section>
                   <button id="passport-opener" onclick="showPass()">Zobacz Dokumenty</button>
+                  <section id="entrypass">
+                        <h1>BILET WSTĘPU DO CIECHOCINKA</h1>
+                        <h3 id="entrypdate" style="font-family: 'Courier New';">Na datę: ERROR</h3>
+                        <h2 style="position: absolute; bottom: 0; margin-inline: auto; left: 0; right: 0;">:: Ministerstwo Ochrony Granicy ::</h2>
+                  </section>
+                  <section id="citizenid">
+                        <img src="Materials/people/green-mug.png" alt="ludek2." id="idimg">
+                        <h1>UNIA CIECHOCIŃSKA</h1>
+                        <h3 id="idname" style="font-family: 'Courier New';">a</h3>
+                        <h3 id="idbirth" style="font-family: 'Courier New';">b</h3>
+                        <h3 id="idexp" style="font-family: 'Courier New';">e</h3>
+                  </section>
                   <section id="passport">
                         <section id="pass2">
                               <section id="passimgs"><br><img src="Materials/people/green-mug.png" alt="ludek." id="pass-pic" draggable="false"><br><img src="Materials/people/visastamp.png" draggable="false" alt="VISA"></section>
