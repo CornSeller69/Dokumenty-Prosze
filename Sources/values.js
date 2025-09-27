@@ -69,6 +69,7 @@ let niezgodne = ``; //niezgodne dane na dokumentach, wypełniane przy CheckMista
 let whatsWrong = ''; // in-testing...
 let isExpired = Boolean(undefined);
 let hasEntryTicket = true; // false if someone isn't meant to have one (events)
+let properfilesave = false;
 
 // ENTRANT DATA
 let name = '';

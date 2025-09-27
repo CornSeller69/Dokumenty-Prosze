@@ -41,6 +41,64 @@ function beginLogojump() {
      }, 2260);
 }
 
+function showGameOptions() {
+     document.getElementById("gameOptionSelector").style.visibility = 'visible';
+}
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const content = e.target.result;
+            try {
+                // Execute the file content as JavaScript code
+                eval(content);
+                
+                // Verify the file is valid
+                if (typeof properfilesave !== 'undefined' && properfilesave === true) {
+                    console.log('File loaded successfully!');
+                    console.info('Loaded variables:', {
+                        money,
+                        currentDay,
+                        rent,
+                        food,
+                        heat,
+                        amtEntered,
+                        amtArrested,
+                        amtDenied,
+                        amtWykrocz,
+                        reqDoc,
+                        newChapters,
+                        entryRules
+                    });
+                    
+                    postSaveFileGameLoad();
+
+                } else {
+                    console.error('Invalid save file: properfilesave is not true or undefined');
+                    alert('Błąd: Nieprawidłowy plik zapisu!');
+                }
+            } catch (error) {
+                console.error('Error loading file:', error);
+                alert('Błąd podczas wczytywania pliku: ' + error.message);
+            }
+        };
+        reader.readAsText(file);
+    }
+});
+function triggerFileInput() {
+    document.getElementById('fileInput').click();
+}
+
+function postSaveFileGameLoad() {
+     document.getElementById('main-menu').style.opacity = 0;
+     document.getElementById('main-menu').style.pointerEvents = 'none';
+     setTimeout(function() {document.getElementById('main-menu').style.visibility = 'hidden';},300);
+     let ggz = 'Materials/gazety/gazeta' + currentDay + '.png';
+     document.getElementById('gazetaimg-loads').src = ggz // musi się zmieniać gazeta1, a nie gazeta2, bo javascripta chuj strzeli
+     document.getElementById('gazeta').style.visibility = 'visible';
+}
+
 function showIntro() {
      introBegun = true;
      document.getElementById('main-menu').style.opacity = 0;

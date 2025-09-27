@@ -517,6 +517,7 @@ function nextDay() {
                   document.getElementById("endsaldo").style.visibility = 'hidden';
                   document.getElementById("gosleepb").style.visibility = 'hidden';
             },1000);
+            if (document.getElementById("savecheck1").checked) {saveGameFile();}
       }
 }
 function closeGazette2() {

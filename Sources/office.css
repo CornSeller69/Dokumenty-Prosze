@@ -489,3 +489,9 @@ body {
       background-color: rgb(56, 56, 56);
       cursor: pointer;
 }
+
+#savecheck1 {
+      pointer-events: none;
+      position: absolute;
+      visibility: hidden;
+}
