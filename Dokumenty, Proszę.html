@@ -10,16 +10,24 @@
 </head>
 <body>
      <div id="enter-thought" onclick="showMainMenu()">
-          <br><h1>ALPHA4 playtest. Spodziewaj się błędów! Wiele assetów jest tymczasowe/niedopracowane.</h1>
+          <br><h1>ALPHA6 playtest. Spodziewaj się błędów! Wiele assetów jest tymczasowe/niedopracowane.</h1>
            <br><h1>Uwaga! Grywalne są tylko 3 dni. (Nie chciało mi się wstawiać okna końca przed dniem 4 więc się odbywa ale nie będzie działać 100% porawnie)</h1><br><br>
           <p style="font-family: 'PixelSansBold';">Kliknij gdziekolwiek, aby kontynuować...</p>
      </div>
      <div id="main-menu" ondblclick="skipTitlefall()">
+          <section id="gameOptionSelector">
+                  <h1 style="font-family: 'PixelSansBold'; text-align: center;"><br><br>Wybierz opcję gry..</h1>
+                  <section style="position: absolute; left: 0; right: 0; margin-inline: auto; position: absolute; top: 50%; transform: translateY(-50%); width: 40%;">
+                        <button class="gosButtons" onclick="showIntro()" style="margin-bottom: 5px;">↗ Nowa Gra</button>
+                        <button class="gosButtons" onclick="triggerFileInput()" style="margin-top: 5px;">🖫 Wczytaj Zapis</button>
+                        <input type="file" id="fileInput" style="display: none;" accept=".dp,.txt,.js">
+                  </section>
+          </section>
           <img src="Materials/logo.png" alt="Dokumenty, Proszę!" id="logo">
-          <button id="menubutton1" onclick="showIntro()">Graj</button>
+          <button id="menubutton1" onclick="showGameOptions()">Graj</button>
           <a style="height: 100%; width: 100%; text-decoration: none; color: whitesmoke;" href="https://github.com/CornSeller69/Dokumenty-Prosze" target="_blank" id="button2href"><button id="menubutton2">GitHub</button></a> <!-- zmień link jak już ustawisz repo btw -->
           <p style="position: absolute; left: 10px; bottom: -3px; font-family: monospace; color: darkolivegreen;" onclick="secret2()">CornSeller</p>
-          <p style="position: absolute; right: 10px; bottom: -3px; font-family: monospace; color: darkolivegreen;">v0.4 (Alpha)</p> <!-- ZMIENIAJ WERSJE Z KAŻDĄ WIĘKSZĄ ZMIANĄ!!!!!!!!!!!!!! -->
+          <p style="position: absolute; right: 10px; bottom: -3px; font-family: monospace; color: darkolivegreen;">v0.6 (Alpha)</p> <!-- ZMIENIAJ WERSJE Z KAŻDĄ WIĘKSZĄ ZMIANĄ!!!!!!!!!!!!!! -->
      </div>
      <div id="intro" class="intra" onclick="switchIntro(1)">
           <img src="Materials/LOTERIA.png" style="height: 60%; left: 0; right: 0; margin-inline: auto; top: 0; position: absolute;">
@@ -37,7 +45,7 @@
           <img src="Materials/Maps/otloczyn.png" style="height: 60%; left: 0; right: 0; margin-inline: auto; top: 0; position: absolute;">
           <h1>Zostałeś przydzielony do pracy w punkcie granicznym między Ostaszewem, a Ciechocinkiem. Znajduje się w pobliżu wsi Otłoczyn w dawnym punkcie obsługi autostradowiczów.</h1>
      </div>
-     <div id="gazeta" onclick="closeGazette()"><img src="Materials/gazety/gazeta1.png" alt="Gazeta..."></div>
+     <div id="gazeta" onclick="closeGazette()"><img src="Materials/gazety/gazeta1.png" alt="Gazeta..." id="gazetaimg-loads"></div>
       <!------------------------------------GAME-SECTION----------------------------------->
       <section id="biuro">
             <section id="topbar">
@@ -66,6 +74,8 @@
                         </tr>
                   </table>
                   <h3 id="endsaldo">Łączne saldo: x</h3>
+                  <input type="checkbox" id="savecheck1"> <!-- remnant of the past idea, but it works (as in that its necessary) and im too tired to fix this so it will stay here and do it's job.. -->
+                  <button id="gosaveb" onclick="toggleSaveCheck()"><span style="color: red;">☒</span> Zapisać postęp?</button>
                   <button id="gosleepb" onclick="nextDay()">Idź spać</button>
             </section>
             <div id="gazeta2" onclick="closeGazette2()"><img src="Materials/gazety/gazeta1.png" alt="Gazeta..." id="gazetaimg"></div>
@@ -105,25 +115,25 @@
                   <img src="Materials/people/green2.png" alt="person" id="petent" draggable="false">
                   <section class="boki" id="lewy">
                         <div class="tooltip">
-                              <img src="Materials/items/book.png" alt="Guide Book" class="items" onclick="openGuide()" draggable="false">
+                              <img src="Materials/items/book.png" alt="Guide Book" class="items" onclick="openGuide()" draggable="false" title="PORADNIK INSPEKTORA">
                               <span class="tooltiptext">PORADNIK INSPEKTORA</span>
                         </div>
                         <div class="tooltip">
-                              <img src="Materials/items/bulletin.png" alt="Bulletin" class="items" onclick="openBulletin()" draggable="false">
+                              <img src="Materials/items/bulletin.png" alt="Bulletin" class="items" onclick="openBulletin()" draggable="false" title="CODZIENNY BIULETYN">
                               <span class="tooltiptext">CODZIENNY BIULETYN</span>
                         </div>
                         <div class="tooltip">
-                              <img src="Materials/items/transcript.png" alt="Transcript" class="items" onclick="openTranscript()" draggable="false">
+                              <img src="Materials/items/transcript.png" alt="Transcript" class="items" onclick="openTranscript()" draggable="false" title="TRANSKRYPT ROZMOWY">
                               <span class="tooltiptext">TRANSKRYPT ROZMOWY</span>
                         </div>
                         <div class="tooltip" style="position: absolute; left: 0; bottom: -5px;">
-                              <img src="Materials/items/microphone.png" alt="Microphone" class="items" onclick="callNext()" style="cursor: progress;" draggable="false">
+                              <img src="Materials/items/microphone.png" alt="Microphone" class="items" onclick="callNext()" style="cursor: progress;" draggable="false" title='"NASTĘPNY!"'>
                         </div>
                   </section>
                   <section class="boki" id="prawy">
-                              <img src="Materials/items/turn-on.png" alt="Gate Ctrl" class="items" id="gate-switch" onclick="toggleGate()" style="cursor: default;" draggable="false">
-                              <img src="Materials/items/stamp.png" alt="approve" class="items" onclick="stampEntry()" style="cursor: alias;" draggable="false">
-                              <img src="Materials/items/alarm.png" alt="alarm" class="items" onclick="callGuards()" style="cursor: default;" draggable="false">
+                              <img src="Materials/items/turn-on.png" alt="Gate Ctrl" class="items" id="gate-switch" onclick="toggleGate()" style="cursor: default;" draggable="false" title="ZASŁONA">
+                              <img src="Materials/items/stamp.png" alt="approve" class="items" onclick="stampEntry()" style="cursor: alias;" draggable="false" title="PIECZĄTKI">
+                              <img src="Materials/items/alarm.png" alt="alarm" class="items" onclick="callGuards()" style="cursor: default;" draggable="false" title="WEZWIJ OCHRONĘ">
                   </section>
                   <section id="desk"></section>
                   <section id="playerguide">
@@ -177,6 +187,7 @@
 <script src="Sources/main.js"></script>
 <script src="Sources/script2.js"></script>
 <script src="Sources/people.js"></script>
+<script src="Sources/savefiles.js"></script>
 <!--                MODIFY DATA BELOW                   -->
 <script src="Extensions/test.js"></script>
 <!--CHECK README.TXT IN EXTENSIONS FOLDER-->
