@@ -351,7 +351,7 @@ body {
       font-size: 20px;
 }
 
-#passport {
+#passport,#legitymacja {
       position: absolute;
       left: 0; right: 0; margin-inline: auto;
       bottom: 5%;
@@ -363,23 +363,23 @@ body {
       visibility: hidden;
       font-family: Cambria;
 }
-#passimgs {
+#passimgs,#legimgs {
       float: left;
       height: 100%;
       width: 30%;
       border-right: 3px dashed rgb(196, 226, 255);
 }
-#passinfs {
+#passinfs,#leginfs {
       float: right;
       height: 100%;
       width: 65%;
       border-left: 2px dashed rgb(196, 226, 255);
 }
-#passimgs img {
+#passimgs img,#legimgs img {
       width: 100%;
       user-select: none;
 }
-#pass2 {
+#pass2,#legit2 {
       position: absolute;
       left: 0; right: 0; margin-inline: auto;
       width: 98%;
@@ -388,7 +388,7 @@ body {
       background-color: aliceblue;
       border-radius: 5px;
 }
-#passport button {
+#passport button, #legitymacja button {
       background-color: aliceblue;
       width: 60px; height: 30px;
       border-radius: 3px;
@@ -396,7 +396,7 @@ body {
       font-family: Calibri;
       float: right;
 }
-#passport button:hover {
+#passport button:hover, #legitymacja button:hover {
       cursor: pointer;
       background-color: rgb(183, 197, 211)
 }

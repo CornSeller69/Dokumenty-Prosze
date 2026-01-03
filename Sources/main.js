@@ -1,3 +1,9 @@
+function checkScreenHeight() {
+     if (window.innerHeight < 800) {
+          alert("Wygląda na to, że używasz laptopa/mniejszego ekranu! Możliwa będzie potrzeba zmiejszenia strony do około 80%. (Ctrl + minus)");
+     }
+}
+
 function showMainMenu() {
      if (!skipTitle) {
           let logo1 = document.getElementById('logo');
@@ -97,6 +103,7 @@ function postSaveFileGameLoad() {
      let ggz = 'Materials/gazety/gazeta' + currentDay + '.png';
      document.getElementById('gazetaimg-loads').src = ggz // musi się zmieniać gazeta1, a nie gazeta2, bo javascripta chuj strzeli
      document.getElementById('gazeta').style.visibility = 'visible';
+     updateGuideBook(); // just in case, because sometimes first page of guide book wouldn't update correctly
 }
 
 function showIntro() {

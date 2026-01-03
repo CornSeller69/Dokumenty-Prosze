@@ -2,10 +2,11 @@ let entrants = [];
 let petentSrcs = [
       'Materials/people/green1.png', 'Materials/people/green2.png', 'Materials/people/green3.png',
       'Materials/people/purple1.png', 'Materials/people/purple2.png',
-      'Materials/people/red1.png', 'Materials/people/red2.png', 'Materials/people/red3.png'
-]; //petents to choose from. 0, 1, 2 = green; 3, 4 = purple; 5, 6, 7 = red;
-let petentDocSrcs = ['Materials/people/green-mug.png', 'Materials/people/purple-mug.png', 'Materials/people/red-mug.png'
-]; // 0 = green, 1 = purple, 2 = red,
+      'Materials/people/red1.png', 'Materials/people/red2.png', 'Materials/people/red3.png',
+      'Materials/people/orange1.png', 'Materials/people/orange2.png'
+]; //petents to choose from. 0, 1, 2 = green; 3, 4 = purple; 5, 6, 7 = red; 8, 9 = orange;
+let petentDocSrcs = ['Materials/people/green-mug.png', 'Materials/people/purple-mug.png', 'Materials/people/red-mug.png', 'Materials/people/orange-mug.png'
+]; // 0 = green, 1 = purple, 2 = red, 3 = orange,
 
 function petentUpd() {
       // Petent Setup for specific days
@@ -21,6 +22,9 @@ function petentUpd() {
                   break;
             case 4:
                   entrants = ['random3', 'day4noentry', 'random3', 'random3', 'day4diplomat', 'random3', 'random3', 'random3'];
+                  break;
+            case 5:
+                  entrants = ['day5noentry', 'random3', 'random3', 'random3', 'random3', 'random3', 'day5criminal', 'random3'];
                   break;
             default:
                   entrants = ['random', 'random', 'random', 'random', 'random', 'random', 'random', 'random'];
@@ -93,21 +97,72 @@ function petentMaker() {
                   Math.random() < 0.95 ? nationFisher() : getFakeNation();
                   Math.random() < 0.7 ? getUnexpired() : getExpired();
                   Math.random() < 0.8 ? document.getElementById("entrypdate").innerHTML =  `Na datę: ` + data : getFakeEntryDate();
+                  hasEntryTicket = true;
                   break;
             case 'day4noentry':
-                  nameFisher();
-                  birthFisher();
-                  mugFisher();
+                  name = 'Henryk';
+                  surname = 'Fischer';
+                  birth = '03.05.1965';
+                  document.getElementById("petent").src = petentSrcs[4];
+                  document.getElementById("pass-pic").src = petentDocSrcs[1];
                   nation = 'Federacja Włocławska';
                   hasEntryTicket = false;
-                  cityFisher();
-                  getUnexpired();
+                  IssCity = 'Szpetal Grn.';
+                  document.getElementById("passexp").innerHTML = '13.01.1984';
                   shouldEnter = false; shouldArrested = false;
                   niezgodne = 'Petent nie posiadał Biletu Wstępu.'
                   events[2] = true;
                   eventWillHappen = true;
                   break;
             case 'day4diplomat':
+                  shouldEnter = true;
+                  niezgodne = 'Petent posiadał poprawną Legitymację Dyplomatyczną.';
+                  isDiplomat = true;
+                  document.getElementById("petent").src = petentSrcs[8];
+                  document.getElementById("leg-pic").src = petentDocSrcs[3];
+                  name = 'Alistair';
+                  surname = 'Pietrucha';
+                  document.getElementById("legname").innerHTML = name + " " + surname;
+                  nation = "Księstwo Ostaszewskie";
+                  document.getElementById("legnat").innerHTML = nation;
+                  document.getElementById("legpel").innerHTML = `
+                  <ul>
+                        <li>Unia Ciechocińska</li>
+                        <li>Księstwo Ostaszewskie</li>
+                        <li>Hrabstwo Golubsko-Dobrzyńskie</li>
+                  </ul>`;
+                  eventWillHappen = true;
+                  events[3] = true;
+                  break;
+            case 'day5noentry':
+                        name = 'Henryk';
+                        surname = 'Fischer';
+                        birth = '03.05.1965';
+                        document.getElementById("petent").src = petentSrcs[4];
+                        document.getElementById("pass-pic").src = petentDocSrcs[1];
+                        nation = 'Federacja Włocławska';
+                        IssCity = 'Szpetal Grn.';
+                        document.getElementById("passexp").innerHTML = '13.01.1984';
+                        document.getElementById("entrypdate").innerHTML = 'Na datę: 04.01.1984';
+                        shouldEnter = false; shouldArrested = false;
+                        niezgodne = 'Bilet Wstępu stracił ważność.'
+                        events[4] = true;
+                        eventWillHappen = true;
+                  break;
+            case 'day5criminal':
+                  name = 'Danne';
+                  surname = 'Schmidt';
+                  birthFisher();
+                  document.getElementById("petent").src = petentSrcs[6];
+                  document.getElementById("pass-pic").src = petentDocSrcs[2];
+                  nation = 'Wielki Inowrocław';
+                  IssCity = 'Bydgoszcz';
+                  getUnexpired();
+                  document.getElementById("entrypdate").innerHTML =  `Na datę: ` + data;
+                  shouldEnter = false; shouldArrested = true;
+                  niezgodne = 'Petent był poszukiwanym przestępcą.'
+                  events[5] = true;
+                  eventWillHappen = true;
                   break;
       }
 
@@ -118,7 +173,7 @@ function petentMaker() {
       document.getElementById("passnat").innerHTML = nation;
       document.getElementById("passcity").innerHTML = IssCity;
       
-      //document.getElementById("passexp").innerHTML = expiration;  ----  depracated
+      //document.getElementById("passexp").innerHTML = expiration;  ----  deprecated
 }
 
 function nameFisher() {
@@ -174,7 +229,14 @@ function mugFisher() {
                   document.getElementById("pass-pic").src = petentDocSrcs[2];
                   document.getElementById("idimg").src = petentDocSrcs[2];
                   break;
-
+            case 8:
+                  document.getElementById("pass-pic").src = petentDocSrcs[3];
+                  document.getElementById("idimg").src = petentDocSrcs[3];
+                  break;
+            case 9:
+                  document.getElementById("pass-pic").src = petentDocSrcs[3];
+                  document.getElementById("idimg").src = petentDocSrcs[3];
+                  break;
             default:
                   document.getElementById("pass-pic").src = 'Materials/temp/empty/bin/nothinghere/bro/stop/funny.png';
                   break;

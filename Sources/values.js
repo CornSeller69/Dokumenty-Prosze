@@ -47,6 +47,8 @@ let amtEntered = 0;
 let amtDenied = 0;
 let amtArrested = 0;
 let amtWykrocz = 0;
+let letDay4GuyIn = false;
+let day5needtip = true;
 let reqDoc = `<b>Ciechocinianie:</b><br>
 1. Paszport<br>
 <br><b>Obcokrajowcy:</b><br>
@@ -70,6 +72,7 @@ let whatsWrong = ''; // in-testing...
 let isExpired = Boolean(undefined);
 let hasEntryTicket = true; // false if someone isn't meant to have one (events)
 let properfilesave = false;
+let isDiplomat = false;
 
 // ENTRANT DATA
 let name = '';
@@ -107,12 +110,12 @@ let citiesInowr = ['Inowrocław', 'Bydgoszcz', 'Solec Kuj.'];
 
 // EVENTS:
 let eventWillHappen = false;
-let events = [false, false, false, false];
+let events = [false, false, false, false, false];
 /*
 0 = Day 1, 6th Entrant (Dissapointed Ostaszewian)
 1 = Day 2, 7th Entrant (Suicide Bomber)
-2 = Day 4, 2nd Entrant (Pissed-off Foreigner with no Entry Pass)
+2 = Day 4, 2nd Entrant (Pissed-off Foreigner with no Entry Pass 1)
 3 = Day 4, 5th Entrant (First Diplomat)
-4 = 
+4 = Day 5. 1st Entrant (Pissed-off Foreigner with no Entry Pass 2)
 5 = 
 */

@@ -41,16 +41,58 @@ function callNext() {
                         sfx_talk1.currentTime = 0;
                         sfx_talk1.play();
                         document.getElementById("dialog-box").style.visibility = 'visible';
-                        document.getElementById("dialog-box").innerHTML = `<h1 style="color:indianred;" id="dialog-actor">Ty</h1>
+                        if (isDiplomat) {
+                              document.getElementById("dialog-box").innerHTML = `<h1 style="color:indianred;" id="dialog-actor">Ty</h1>
+                              <p id="dialog-words">Dokumenty, Proszę.</p><button onclick="introSpeechDip()">DALEJ...</button>`;
+                        } else if(letDay4GuyIn && events[4] == true) {
+                              document.getElementById("dialog-box").innerHTML = `<h1 style="color:indianred;" id="dialog-actor">Ty</h1>
+                              <p id="dialog-words">Dokumenty, Proszę.</p><button onclick="introSpeechDay4in5(0)">DALEJ...</button>`;
+                        } else if(!letDay4GuyIn && events[4] == true) {
+                              document.getElementById("dialog-box").innerHTML = `<h1 style="color:indianred;" id="dialog-actor">Ty</h1>
+                              <p id="dialog-words">Dokumenty, Proszę.</p><button onclick="introSpeechDay4in5N()">DALEJ...</button>`;
+                        } else {
+                              document.getElementById("dialog-box").innerHTML = `<h1 style="color:indianred;" id="dialog-actor">Ty</h1>
                               <p id="dialog-words">Dokumenty, Proszę.</p><button onclick="showPass()">DALEJ...</button>`;
+                        }
                         currentTranscript = currentTranscript + `<p style="color:indianred;">Dokumenty, proszę.</p>`;
                   }, 2000);
             }, 1800);
             currentTranscript = ``;
       }
 }
+function introSpeechDip() {
+      sfx_talk2.currentTime = 0; sfx_talk2.play();
+      document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+            <p id="dialog-words">Zażądano tutaj mojej obecności.</p><button onclick="showPass()">DALEJ...</button>`;
+      currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Zażądano tutaj mojej obecności.</p>`;
+}
+function introSpeechDay4in5(hf) {
+      switch(hf) {
+            case 0:
+                  sfx_talk2.currentTime = 0; sfx_talk2.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                  <p id="dialog-words">Cześć byłem tu wczoraj!</p><button onclick="introSpeechDay4in5(1)">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Cześć byłem tu wczoraj!</p>`;
+                  break;
+            case 1:
+                  sfx_talk2.currentTime = 0; sfx_talk2.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                  <p id="dialog-words">Zapomniałem tego całego biletu wstępu.. Ale dzisiaj go mam!</p><button onclick="showPass()">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Zapomniałem tego całego biletu wstępu.. Ale dzisiaj go mam!</p>`;
+                  break;
+      }
+}
+function introSpeechDay4in5N() {
+      sfx_talk2.currentTime = 0; sfx_talk2.play();
+      document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+            <p id="dialog-words">Mówiłem, że wrócę! Mam bilet.</p><button onclick="showPass()">DALEJ...</button>`;
+      currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Mówiłem, że wrócę! Mam bilet.</p>`;
+}
 
 function walkAway() {
+      petentsLeft--;
+      updateTopBar(); // dla aresztów bo nie działa coś znowu <3
+      if (beenArrested) {beenArrested = false; amtArrested++; document.getElementById("dialog-box").style.visibility = 'hidden';} // j.w.
       sfx_footsteps.currentTime = 1.1;
       sfx_footsteps.play();
       let petent = document.getElementById("petent");
@@ -59,13 +101,19 @@ function walkAway() {
 }
 
 function showPass() {
-      document.getElementById("passport-opener").style.visibility = 'hidden';
-      document.getElementById("dialog-box").style.visibility = 'hidden';
-      document.getElementById("passport").style.visibility = 'visible';
-      if (currentDay >= 3 && hasEntryTicket == true && nation !== "Unia Ciechocińska") {
-            document.getElementById("entrypass").style.visibility = 'visible';
-      } else if (currentDay >= 3 && hasEntryTicket == true && nation == "Unia Ciechocińska") {
-            document.getElementById("citizenid").style.visibility = 'visible';
+      if (isDiplomat) {
+            document.getElementById("passport-opener").style.visibility = 'hidden';
+            document.getElementById("dialog-box").style.visibility = 'hidden';
+            document.getElementById("legitymacja").style.visibility = 'visible';
+      } else {
+            document.getElementById("passport-opener").style.visibility = 'hidden';
+            document.getElementById("dialog-box").style.visibility = 'hidden';
+            document.getElementById("passport").style.visibility = 'visible';
+            if (currentDay >= 3 && hasEntryTicket == true && nation !== "Unia Ciechocińska") {
+                  document.getElementById("entrypass").style.visibility = 'visible';
+            } else if (currentDay >= 3 && hasEntryTicket == true && nation == "Unia Ciechocińska") {
+                  document.getElementById("citizenid").style.visibility = 'visible';
+            }
       }
 }
 function hidePass() {
@@ -75,6 +123,10 @@ function hidePass() {
             document.getElementById("entrypass").style.visibility = 'hidden';
             document.getElementById("citizenid").style.visibility = 'hidden';
       }
+}
+function hideLegit() {
+      document.getElementById("legitymacja").style.visibility = 'hidden';
+      document.getElementById("passport-opener").style.visibility = 'visible';
 }
 
 function openGuide() {
@@ -105,113 +157,6 @@ function flipPage(x) {
       }
       loadGuidePages();
       if (guidePage == 1) {document.getElementById("gb1").innerHTML = "ZAMKNIJ";} else {document.getElementById("gb1").innerHTML = "&#8592";}
-}
-
-function loadGuidePages() {
-      let page1 = document.getElementById('gpage1');
-      let page2 = document.getElementById('gpage2');
-      let pb1 = `<button class="gbut" onclick="flipPage(1)" id="gb1">ZAMKNIJ</button>`;
-      let pb2 = `<button class="gbut" onclick="flipPage(2)">&#8594</button>`;
-
-      switch(guidePage) {
-            case 1:
-                  page1.innerHTML = pb1 + `
-                        <img src='Materials/herb.png' alt='Unia Ciechocińska' style='height: 80%; margin-top: 5%; margin-left: -60px;'>
-                        <br><b>Własność Ministerstwa Ochrony Granicy<br>Wydano: 01.01.1984</b>`;
-                  page2.innerHTML = pb2 + `<br>
-                  Witajcie Inspektorze! Ten poradnik powie wam o wszystkich ważnych aspektach pracy na tym stanowisku. Poniżej jest spis treści:<br><br>
-                  <b>I: Ogląd Biura<br>II: Dane na Dokumentach<br>III: Traktowanie Petentów<br>IV: Wykroczenia i pouczenie` + newChapters + `</b>`;
-                  break;
-            case 2:
-                  page1.innerHTML = pb1 + `<br>
-                  <b>I: Ogląd Biura</b><br><br>
-                  Wasze biuro jest wyposażone w niezbędne elementy przejścia granicznego. W razie potrzeby, Ministerstwo zapewnia ulepszenia na koszt kraju.<br><br>
-                  Twój inwentarz uzupełniają:<br>1. Zielony poradnik, który właśnie czytasz.<br>2. Biuletyn, który powinniście sprawdzać codziennie dla nowości i rozkazów.<br>3. Pieczątki, do nadawania lub odmawiania wstępu do kraju.<br>4. Mikrofon, do informowania petentów o przejściu kolejki dalej.<br>5. Kontrola zasłony, w celach zamknięcia/otwarcia biura.<br>6. Alarm, do przyzywania ochrony, która aresztuje petenta.<br>7. Ekrany nad głową, pokazujące dane waszej służby.
-                  <br><br>Dodatkowo, gdy będziecie zaczynać oraz kończyć zmianę pamiętajcie o użyciu zasłony (podpunkt 5). Koniec zmiany dobiegnie, gdy na górnym ekranie liczba pozostałych petentów wyniesie zero oraz rozlegnie się sygnał zamknięcia granicy.<br><br><br><u>Spodziewajcie się zwiększenia asortymentu, w razie gdyby zwiększono środki ochrony.</u>`;
-                  page2.innerHTML = pb2 + `<br>
-                  <b>II: Dane na Dokumentach</b><br><br>
-                  Dokumenty jakie wymagane są przez petentów posiadają na sobie takie informacje jak imię i nazwisko, data urodzenia, data ważności dokumentu, numer identyfikacyjny, wygląd petenta (zdjęciowo/opisowo), itp.<br>
-                  Niektóre niepoprawności w dokumentach, takie jak wygaśnięcie ważności czy niezgodna długość pobytu są karane odmową wstępu, natomiast rzeczy takie jak błędne numery identyfikacyjne czy różne imiona są podstawą do aresztowania petenta ku przesłuchaniom.<br><br>
-                  Pamiętaj, aby również nie odmawiać petentowi odrazu przy okazji braku wymaganych dokumentów. Czasami poprostu zapominają ich wyjąć.<br><br><br><b><u>Wszystkie wymagane od petentów dokumenty na dzień dzisiejszy:</u></b><br>` + reqDoc;
-                  break;
-            case 3:
-                  page1.innerHTML = pb1 + `<br>
-                  <b>III: Traktowanie Petentów</b><br><br>
-                  Pamiętajcie! Traktujcie każdego Petenta jako potencjalne zagrożenie! Każde, choćby małe niedopatrzenie może kosztować życie naszych cywilów!<br>
-                  Używając mikrofonu wzywajcie petentów do waszego biura. Każdy petent musi przedstawić wszystkie wymagane dokumenty na dany dzień (poprzednia strona). Również, co jakiś czas wprowadzane mogą być specyficzne regulacje co do wpuszczania poszczególnych osób.<br><br>
-                  <b>Obecne zasady wpuszczania petentów:</b><br>` + entryRules + `<br><br>
-                  Niektórzy petenci jednakże mogą otrzymać specjalne traktowanie (Nie potrzebują innych dokumentów oprócz swojej legitymacji). Należą do nich Dyplomaci oraz Osoby poszukujące Azylu politycznego w Ciechocinku.`;
-                  page2.innerHTML = pb2 + `<br>
-                  <b>IV: Wykroczenia i pouczenie</b><br><br>
-                  Jeżeli zdarzy się, że rzeczywiście popełniliście błąd podczas sprawdzania petenta, otrzymacie pouczenie w formie ostrzeżenia. Ostrzeżenie będzie zawierało wszystkie wykroczenia jakie popełniliście.<br>
-                  W przypadku nie wpuszczenia petenta, który powinien być wpuszczony, dostaniecie poprostu ostrzeżenie za błędny werdykt. Jeżeli wpuścicie petenta z błędnymi papierami, wszystkie błędy będą zanotowane.<br>
-                  Pouczenia również będą wydawane za: Wpuszczenie/jedynie odmawianie wstępu osobom poszukiwanym listem gończym, nieuzasadnione aresztowanie czy również jedzenie pizzy z ananasem.<br><br>
-                  <b>Uwaga! Ministerstwo Ochrony Granicy zezwala na jedynie 2 wykroczenia podczas pojedynczej zmiany. Wykroczenie numer 3 lub wyższe będą karane finansowo.`; 
-                  break;
-            case 4:
-                  if (currentDay >= 2) {
-                        page1.innerHTML = pb1 + `<br>
-                        <b>V: Mapa narodów</b><br><br>
-                        Upewnijcie się czy naród, zgadza się z listą wpuszczanych narodów.<br>
-                        Rzadka sytacja może się natrafić, że będziecie jednak musieli wpuścić kogoś spoza listy krajów, jako, iż będą to raczej jedynie dyplomaci, będziecie o takim sytuacjach powiadamiani w biuletynie.
-                        <br><u>Upewniaj się również czy miasto wydające paszport zgadza się z miastami wydającymi w poszczególnych krajach!</u><br><br>
-                        <b>Miasta wydające paszporty:</b><br>
-                        1. Unia Ciechocińska:<br>
-                        - Ciechocinek, Raciążek, Lubicz Dolny<br>
-                        2. Księstwo Ostaszewskie:<br>
-                        - Toruń, Łysomice, Papowo Ostaszewskie<br>
-                        3. Federacja Włocławska:<br>
-                        - Włocławek, Szpetal Górny, Kowal<br>
-                        4. Hrabstwo Lipnowskie:<br>
-                        - Lipno, Biskupin<br>
-                        5. Hrabstwo Golubsko-Dobrzyńskie:<br>
-                        - Bielsk, Ciechocin<br>
-                        6. Wielki Inowrocław:<br>
-                        - Inowrocław, Bydgoszcz, Solec Kujawski`;
-                        page2.innerHTML = pb2 + `<br><br><br><img src='Materials/temp/empty/bin/nothinghere/bro/stop/funny.png' alt='Mapa here' style='width: 100%; margin-top: 5%;'>`; 
-                  } else {
-                        page1.innerHTML = pb1 + ``;
-                        page2.innerHTML = pb2 + ``;
-                  }
-                  break;
-            
-            default:
-                  page1.innerHTML = pb1 + ``; // Dodaj jakieś warunki odblokowania (np if day == x) czy coś :P przy okazji jak już wszystkie strony będą gotowe wprowadź limit ile kartek w przód można przerzucić
-                  page2.innerHTML = pb2 + ``;
-                  break;
-      }
-}
-
-function openBulletin() {
-      if (!somethingOpenError) {
-            somethingOpenError = true;
-            //document.getElementById('bulletin').style.visibility = 'visible';
-            document.getElementById("bulletin").style.bottom = '10%';
-            let content = document.getElementById('bull-content');
-      
-            switch (currentDay) {
-                  case 1:
-                        content.innerHTML = `Biuletyn na datę 01.01.1984<br><br>Witajcie nowy inspektorze! Nowo otwarta granica wymaga waszego uważnego oka podczas sprawdzania dokumentów.<br>
-                        Jako iż nasi żołnierze mogą znowu bezpiecznie wrócić do domu, zacznijcie przepuszczać Ciechocinian, ale <u>jedynie</u> Ciechocinian. Nie przepuszczajcie obcokrajowców!<br><br>
-                        W przypadku, gdyby jednakże zjawił się na granicy ktoś spoza naszego kraju, wlepcie mu pieczątkę odmowy, a jeżeli będzie sprawiał więcej problemów, wciśnijcie przycisk alarmu w waszym biurze.<br><br>Niech żyje Unia Ciechocińska!`;
-                        break;
-                  case 2:
-                        content.innerHTML = `Biuletyn na datę 02.01.1984<br><br>Inspektorze! Po wczorajszym sukcesie granicy stwierdziliśmy, że nadszedł czas otworzyć kraj w pełni!<br>
-                        Możecie od teraz wpuszczać Obcokrajowców, pod warunkiem, że mają przy sobie paszport, który nie stracił jeszcze ważności.<br>
-                        Wasz poradnik otrzymał nowy wpis na temat krajów, z jakich zezwalamy na wstęp ludności.<br><br>
-                        W przypadku, problemów, wlepcie pieczątkę odmowy, a jeżeli będzie więcej problemów, wciśnijcie przycisk alarmu w waszym biurze.<br><br>Niech żyje Unia Ciechocińska!`;
-                        break;
-                  case 3:
-                        content.innerHTML = `Biuletyn na datę 03.01.1984<br><br>Inspektorze! Ministerstwo Ochrony Granicy ogłasza, że przez wczorajszy atak terrorystyczny, wprowadzamy nowe zabezpieczenia.<br>
-                        Obcokrajowcy, aby mieć wstęp do kraju, muszą również mieć przy sobie ważny Bilet Wstępu.<br>
-                        Zdajemy sobie sprawę jednakże, że przestępcy będą próbowali podszywać się pod Naszych rodaków skradzionymi paszportami. Od teraz, Ciechocinianie muszą również mieć przy sobie Dowód Osobisty.<br><br>
-                        W przypadku, braku dodatkowych dokumentów, wlepcie pieczątkę odmowy.<br><br>Niech żyje Unia Ciechocińska!`;
-                        break;
-                  default:
-                        content.innerHTML = `Nie ma żadnych wieści dla dzisiejszego biuletynu, kontynuujcie pracę podług poprzednio danych nakazów.`
-                        break;
-            }
-      }
 }
 
 function closeBulletin() {
@@ -271,18 +216,19 @@ function closeSPopup() {
       somethingOpenError = false;
 }
 function issueStamp(x) {
+      if(isDiplomat) {isDiplomat = false;}
       sfx_stamp.currentTime = 0;
       sfx_stamp.play();
       approvedEntry = x;
       closeSPopup();
       if(!eventWillHappen) {setTimeout(function() {boothEmpty = true;},2222);}
-      petentsLeft--;
       updateTopBar();
       document.getElementById("passport-opener").style.visibility = 'hidden';
       checkMistakes();
 }
 
 function checkMistakes() {
+      document.getElementById("dialog-box").style.visibility = 'hidden'; // to jest dla aresztów aby dialogi zamykało..
       if (!eventWillHappen) {
             walkAway();
             if (shouldEnter) {
@@ -301,9 +247,12 @@ function checkMistakes() {
                         if (!shouldArrested) {
                               cite(`Bezpodstawnie aresztowano petenta.`);
                               checkWyk();
+                              beenArrested = false;
                         } else if (shouldArrested) {
                               money = money + 5; earns += 5;
                               if (petentsLeft == 0) {endWorkDay('');}
+                              shouldArrested = false;
+                              beenArrested = false;
                         }
                   }
                   if(!approvedEntry) {
@@ -319,6 +268,10 @@ function checkMistakes() {
       } else {
             if (events[0] == true) {event_disptOst();}
             if (events[1] == true) {event_suicideDay2();}
+            if (events[2] == true) {event_noentryticket1();}
+            if (events[3] == true) {event_diplomat1();}
+            if (events[4] == true) {event_noentryticket2();}
+            if (events[5] == true) {event_criminal1();}
       }
 }
 
@@ -363,8 +316,8 @@ function checkWyk() {
 }
 
 function callGuards() {
-      if (!boothEmpty && currentDay >= 5) {
-            beenArrested = true;
+      if (currentDay >= 5) {beenArrested = true; document.getElementById("passport-opener").style.visibility = 'hidden';}
+      if (!boothEmpty && currentDay >= 5 && !eventWillHappen) {
             sfx_alarm.currentTime = 0;
             sfx_alarm.play();
             if (shutterOpen) {toggleGate();}
@@ -373,22 +326,69 @@ function callGuards() {
                   sfx_shout.play();
                   document.getElementById("dialog-box").style.visibility = 'visible';
                   document.getElementById("dialog-box").innerHTML = `<h1 style="color:cadetblue;" id="dialog-actor">Ochrona</h1>
-                        <p id="dialog-words">Wyłaź stamtąd!</p><button onclick="arrestProcess()">DALEJ...</button>`; // zrób tak aby arrestProcess() działało :trollface4k:
+                        <p id="dialog-words">Wyłaź stamtąd!</p><button onclick="document.getElementById('dialog-box').style.visibility = 'hidden'; walkAway();">DALEJ...</button>`;
                   currentTranscript = currentTranscript + `<p style="color:cadetblue;">Wyłaź stamtąd!</p>`;
             },2500);
+      } else if (!boothEmpty && currentDay >= 5 && eventWillHappen) {
+            sfx_alarm.currentTime = 0;
+            sfx_alarm.play();
+            if (shutterOpen) {toggleGate();}
+            setTimeout(()=>{boothEmpty = true;},2222);
+            if (events[4]) {
+                  day5needtip = false;
+                  eventWillHappen = false; events[4] = false;
+                  somethingOpenError = false;
+                  sfx_talk2.currentTime = 0; sfx_talk2.play();
+            document.getElementById("dialog-box").style.visibility = 'visible';
+            document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                  <p id="dialog-words">Uh, co się dzieje?</p><button onclick="arrestPostdialog()">DALEJ...</button>`;
+            currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Uh, co się dzieje?</p>`;
+            }
+            if (events[5]) {
+                  eventWillHappen = false; events[4] = false;
+                  sfx_talk1.currentTime = 0; sfx_talk1.play();
+                  document.getElementById("dialog-box").style.visibility = 'visible';
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:indianred;" id="dialog-actor">Ty</h1>
+                        <p id="dialog-words">Nie powinniście byli tutaj przychodzić.</p><button onclick="arrestDay5dialog(0)">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:indianred;">Nie powinniście byli tutaj przychodzić.</p>`;
+            }
       } else if (currentDay < 5) {
             sfx_nobuzz.currentTime = 0;
             sfx_nobuzz.play();
       }
 }
+function arrestPostdialog() {
+      sfx_shout.currentTime = 0;
+      sfx_shout.play();
+      document.getElementById("dialog-box").style.visibility = 'visible';
+      document.getElementById("dialog-box").innerHTML = `<h1 style="color:cadetblue;" id="dialog-actor">Ochrona</h1>
+            <p id="dialog-words">Wyłaź stamtąd!</p><button onclick="walkAway()">DALEJ...</button>`;
+      currentTranscript = currentTranscript + `<p style="color:cadetblue;">Wyłaź stamtąd!</p>`;
+}
+function arrestDay5dialog(hf) {
+      switch(hf) {
+            case 0:
+                  sfx_talk2.currentTime = 0; sfx_talk2.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                  <p id="dialog-words">Będziesz tego żałował.</p><button onclick="arrestDay5dialog(1)">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Będziesz tego żałował.</p>`;
+                  break;
+            case 1:
+                  sfx_talk2.currentTime = 0; sfx_talk2.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:indianred;" id="dialog-actor">Ty</h1>
+                  <p id="dialog-words">Śmieszne, że dziś tu przyszliście... akurat jak zaczęliśmy łapać.</p><button onclick="arrestPostdialog()">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:indianred;">Śmieszne, że dziś tu przyszliście... akurat jak zaczęliśmy łapać.</p>`;
+                  break;
+      }
+}
 
 function event_disptOst() {
+      eventWillHappen = false; events[0] = false;
       if (approvedEntry) {
             walkAway();
             cite(niezgodne);
             setTimeout(function() {boothEmpty = true;},2222);
-            wykroczenia++; checkWyk();
-            eventWillHappen = false; events[0] = false;
+            checkWyk();
       } else {
             sfx_talk2.currentTime = 0; sfx_talk2.play();
             document.getElementById("dialog-box").style.visibility = 'visible';
@@ -455,6 +455,156 @@ function event2_suicide() {
       },400);
 }
 
+function event_noentryticket1() {
+      events[2] = false; eventWillHappen = false;
+      if (approvedEntry) {
+            letDay4GuyIn = true;
+            walkAway();
+            cite(niezgodne);
+            setTimeout(function() {boothEmpty = true;},2222);
+            checkWyk();
+      } else {
+            letDay4GuyIn = false;
+            sfx_talk2.currentTime = 0; sfx_talk2.play();
+            document.getElementById("dialog-box").style.visibility = 'visible';
+            document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                  <p id="dialog-words">Odmowa? Z jakiej racji?</p><button onclick="event3_talk(0)">DALEJ...</button>`;
+            currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Odmowa? Z jakiej racji?</p>`;
+      }
+}
+function event3_talk(ab) {
+      switch (ab) {
+            case 0:
+                  sfx_talk1.currentTime = 0; sfx_talk1.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:indianred;" id="dialog-actor">Ty</h1>
+                        <p id="dialog-words">Nie macie przy sobie Biletu Wstępu.</p><button onclick="event3_talk(1)">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:indianred;">Nie macie przy sobie Biletu Wstępu.</p>`;
+                  break;
+            case 1:
+                  sfx_talk2.currentTime = 0; sfx_talk2.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                        <p id="dialog-words">To takie coś jest potrzebne?</p><button onclick="event3_talk(2)">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">To takie coś jest potrzebne?</p>`;
+                  break;
+            case 2:
+                  sfx_talk2.currentTime = 0; sfx_talk2.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                        <p id="dialog-words">Wczoraj tego nawet nie było. Wy Ciechocinianie zawsze coś wymyślicie!</p><button onclick="event3_talk(3)">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Wczoraj tego nawet nie było. Wy Ciechocinianie zawsze coś wymyślicie!</p>`;
+                  break;
+            case 3:
+                  sfx_talk1.currentTime = 0; sfx_talk1.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:indianred;" id="dialog-actor">Ty</h1>
+                        <p id="dialog-words">To wszystko w celu bezpieczeństwa.</p><button onclick="event3_talk(4)">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:indianred;">To wszystko w celu bezpieczeństwa.</p>`;
+                  break;
+            case 4:
+                  sfx_talk2.currentTime = 0; sfx_talk2.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                        <p id="dialog-words">Tyle mnie to obchodzi, że aż wcale. Wrócę tu jutro.</p><button onclick="event3_talk(5)">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Tyle mnie to obchodzi, że aż wcale. Wrócę tu jutro.</p>`;
+                  break;
+            case 5:
+                  // brochacho just remember to reset events, this shit can break weirdly lmfao :P
+                  document.getElementById("dialog-box").style.visibility = 'hidden';
+                  setTimeout(function() {boothEmpty = true;},2222);
+                  money += 5; earns += 5;
+                  walkAway();
+                  break;
+      }
+}
+
+function event_diplomat1() {
+      if (approvedEntry) {
+            setTimeout(function() {boothEmpty = true;},2222);
+            walkAway();
+            eventWillHappen = false; events[3] = false;
+            money += 5; earns += 5;
+      } else {
+            sfx_talk2.currentTime = 0; sfx_talk2.play();
+            document.getElementById("dialog-box").style.visibility = 'visible';
+            document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                  <p id="dialog-words">Przecież mnie tutaj wzywaliście..?</p><button onclick="event4_talk(0)">DALEJ...</button>`;
+            currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Przecież mnie tutaj wzywaliście..?</p>`;
+      }
+}
+function event4_talk(ab) {
+      switch (ab) {
+            case 0:
+                  sfx_talk2.currentTime = 0; sfx_talk2.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                        <p id="dialog-words">Zgłoszę to w raporcie!</p><button onclick="event4_talk(1)">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Zgłoszę to w raporcie!</p>`;
+                  break;
+            case 1:
+                  eventWillHappen = false; events[3] = false;
+                  document.getElementById("dialog-box").style.visibility = 'hidden';
+                  setTimeout(function() {boothEmpty = true;},2222);
+                  walkAway();
+                  cite(niezgodne);
+                  checkWyk();
+                  break;
+      }
+}
+
+function event_noentryticket2() {
+      if (approvedEntry) {
+            eventWillHappen = false; events[4] = false;
+            walkAway();
+            cite(niezgodne);
+            setTimeout(function() {boothEmpty = true;},2222);
+            checkWyk();
+      } else {
+            sfx_talk2.currentTime = 0; sfx_talk2.play();
+            document.getElementById("dialog-box").style.visibility = 'visible';
+            document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                  <p id="dialog-words">Odmowa? Znowu?! Przecież mam teraz ten bilet!</p><button onclick="eventNET2_talk(0)">DALEJ...</button>`;
+            currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Odmowa? Znowu?! Przecież mam teraz ten bilet!</p>`;
+      }
+}
+function eventNET2_talk(ab) {
+      shouldArrested = true; // adding this here cause you will lowkirk forget
+      switch(ab) {
+            case 0:
+                  sfx_talk1.currentTime = 0; sfx_talk1.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:indianred;" id="dialog-actor">Ty</h1>
+                        <p id="dialog-words">Ten bilet stracił już ważność...</p><button onclick="eventNET2_talk(1)">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:indianred;">Ten bilet stracił już ważność...</p>`;
+                  break;
+            case 1:
+                  sfx_talk2.currentTime = 0; sfx_talk2.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                        <p id="dialog-words">Absurd! Zapłaciłem za to dobre peniądze!</p><button onclick="eventNET2_talk(2)">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Absurd! Zapłaciłem za to dobre pieniądze!</p>`;
+                  break;
+            case 2:
+                  sfx_talk2.currentTime = 0; sfx_talk2.play();
+                  document.getElementById("dialog-box").innerHTML = `<h1 style="color:DarkSlateGray;" id="dialog-actor">Petent</h1>
+                        <p id="dialog-words">Nie. Nie. Ja się stąd nie ruszam!</p><button onclick="eventNET2_talk(3)">DALEJ...</button>`;
+                  currentTranscript = currentTranscript + `<p style="color:DarkSlateGray;">Nie. Nie. Ja się stąd nie ruszam!</p>`;
+                  break;
+            case 3:
+                  document.getElementById("dialog-box").style.visibility = 'hidden';
+                  somethingOpenError = true;
+                  setTimeout(function() {
+                        if (day5needtip) {
+                              document.getElementById("dialog-box").style.visibility = 'visible';
+                        document.getElementById("dialog-box").innerHTML = `<h1 style="color:DodgerBlue;" id="dialog-actor">Podpowiedź</h1>
+                              <p id="dialog-words">Możesz od teraz aresztować petenta używając czerwonego przycisku po prawej.</p><button onclick="document.getElementById('dialog-box').style.visibility = 'hidden';">DALEJ...</button>`;
+                  }}, 5500);
+                  break;
+      }
+}
+
+function event_criminal1() {
+      events[5] = false; eventWillHappen = false;
+      if (!beenArrested) {
+            walkAway();
+            cite(niezgodne);
+            setTimeout(function() {boothEmpty = true;},2222);
+            checkWyk();
+      }
+}
 
 function endWorkDay(ccc) {
       if (currentDay !== 2) {sfx_foghorn.currentTime = 0; sfx_foghorn.play();}
@@ -472,7 +622,6 @@ function endWorkDay(ccc) {
             document.getElementById("endheat").innerHTML = heat;
             money = money - rent - food - heat;
             document.getElementById("endsaldo").innerHTML = 'Łączne saldo: ' + money;
-            
             document.getElementById("DaySummary").style.visibility = 'visible';
             document.getElementById("DaySummary").style.pointerEvents = 'auto';
             document.getElementById("DaySummary").style.opacity = 1;
@@ -536,34 +685,6 @@ function closeGazette2() {
      document.getElementById('biuro').style.visibility = 'visible';                       // ngl this is all just a copypaste            lol
           ambience1.currentTime = 0; ambience3.currentTime = 0;                                     // i clearly see this shit doesnt make sense
           ambience1.play(); ambience3.play();
-}
-
-function updateGuideBook() {
-      if (currentDay >= 2) {
-            reqDoc = `<b>Ciechocinianie:</b><br>
-            1. Paszport<br>
-            <br><b>Obcokrajowcy:</b><br>
-            1. Paszport<br>
-            <br><b>Dyplomaci:</b><br>
-            1. Paszport<br>
-            <br><b>Azylanci:</b><br>
-            Nie przyjmujemy obecnie azylantów.`;
-            newChapters = `<br>V. Mapa narodów`;
-            entryRules = `1. Wszystkie dokumenty muszą być aktualne`;
-      }
-      if (currentDay >= 3) {
-            reqDoc = `<b>Ciechocinianie:</b><br>
-            1. Paszport<br>
-            2. Dowód Osobisty<br>
-            <br><b>Obcokrajowcy:</b><br>
-            1. Paszport<br>
-            2. Bilet Wstępu<br>
-            <br><b>Dyplomaci:</b><br>
-            1. Legitymacja dyplomatyczna<br>
-            <br><b>Azylanci:</b><br>
-            Nie przyjmujemy obecnie azylantów.`;
-            entryRules = `1. Wszystkie dokumenty muszą być aktualne<br>2. Ciechocinianie muszą mieć Dowód osobisty<br>3. Obcokrajowcy muszą mieć Bilet wstępu`;
-      }
 }
 
 function gameover(typ) {

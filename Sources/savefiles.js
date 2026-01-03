@@ -12,11 +12,12 @@ function saveGameFile() {
       }
 
       const data =`properfilesave = true; 
-            money = ` + money + `; currentDay = ` + currentDay + `; rent = ` + rent + `; food = ` + food + `; heat = ` + heat + `; amtEntered = ` + amtEntered + `; amtArrested = ` + amtArrested + `; amtDenied = ` + amtDenied + `; amtWykrocz = ` + amtWykrocz + `; reqDoc = ` + '`' + reqDoc + '`' + `; newChapters = ` + '`' + newChapters + '`' + `; entryRules = ` + '`' + entryRules + '`' + `; `;
+            money = ` + money + `; currentDay = ` + currentDay + `; rent = ` + rent + `; food = ` + food + `; heat = ` + heat + `; amtEntered = ` + amtEntered + `; amtArrested = ` + amtArrested + `; amtDenied = ` + amtDenied + `; amtWykrocz = ` + amtWykrocz + `; reqDoc = ` + '`' + reqDoc + '`' + `; newChapters = ` + '`' + newChapters + '`' + `; entryRules = ` + '`' + entryRules + '`' + `; letDay4GuyIn = ` + letDay4GuyIn + `; day5needtip = ` + day5needtip + `; `;
             // Expand at the end in case of new data that must be saved. Remember to put this for data that must be in brackets:     + '`' + 
 
       let date = new Date();
-      const customFileName = date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear() + ".dp";
+      let actualMonth = date.getMonth() + 1; // getMonth() is index-based..
+      const customFileName = date.getDate() + "-" + actualMonth + "-" + date.getFullYear() + ".dp";
       saveToFile(data, customFileName, 'text/plain');
 }
 
