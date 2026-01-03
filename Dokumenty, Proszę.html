@@ -8,10 +8,10 @@
      <link rel="stylesheet" href="Sources/office.css">
      <link rel="shortcut icon" href="Materials/herb.png" type="image/x-icon">
 </head>
-<body>
+<body onload="checkScreenHeight()">
      <div id="enter-thought" onclick="showMainMenu()">
-          <br><h1>ALPHA6 playtest. Spodziewaj się błędów! Wiele assetów jest tymczasowe/niedopracowane.</h1>
-           <br><h1>Uwaga! Grywalne są tylko 3 dni. (Nie chciało mi się wstawiać okna końca przed dniem 4 więc się odbywa ale nie będzie działać 100% porawnie)</h1><br><br>
+          <br><h1>ALPHA7 playtest. Spodziewaj się błędów! Wiele assetów jest tymczasowe/niedopracowane.</h1>
+           <br><h1>Uwaga! Grywalne są tylko 5 dni. Następujące po piątym dni są wciąż w produkcji..</h1><br><br>
           <p style="font-family: 'PixelSansBold';">Kliknij gdziekolwiek, aby kontynuować...</p>
      </div>
      <div id="main-menu" ondblclick="skipTitlefall()">
@@ -27,7 +27,7 @@
           <button id="menubutton1" onclick="showGameOptions()">Graj</button>
           <a style="height: 100%; width: 100%; text-decoration: none; color: whitesmoke;" href="https://github.com/CornSeller69/Dokumenty-Prosze" target="_blank" id="button2href"><button id="menubutton2">GitHub</button></a> <!-- zmień link jak już ustawisz repo btw -->
           <p style="position: absolute; left: 10px; bottom: -3px; font-family: monospace; color: darkolivegreen;" onclick="secret2()">CornSeller</p>
-          <p style="position: absolute; right: 10px; bottom: -3px; font-family: monospace; color: darkolivegreen;">v0.6 (Alpha)</p> <!-- ZMIENIAJ WERSJE Z KAŻDĄ WIĘKSZĄ ZMIANĄ!!!!!!!!!!!!!! -->
+          <p style="position: absolute; right: 10px; bottom: -3px; font-family: monospace; color: darkolivegreen;">v0.7 (Alpha)</p> <!-- ZMIENIAJ WERSJE Z KAŻDĄ WIĘKSZĄ ZMIANĄ!!!!!!!!!!!!!! -->
      </div>
      <div id="intro" class="intra" onclick="switchIntro(1)">
           <img src="Materials/LOTERIA.png" style="height: 60%; left: 0; right: 0; margin-inline: auto; top: 0; position: absolute;">
@@ -131,7 +131,7 @@
                         </div>
                   </section>
                   <section class="boki" id="prawy">
-                              <img src="Materials/items/turn-on.png" alt="Gate Ctrl" class="items" id="gate-switch" onclick="toggleGate()" style="cursor: default;" draggable="false" title="ZASŁONA">
+                              <img src="Materials/items/turn-on.png" alt="Gate Ctrl" class="items" id="gate-switch" onclick="toggleGate()" style="cursor: default;" draggable="false" title="ROLETA">
                               <img src="Materials/items/stamp.png" alt="approve" class="items" onclick="stampEntry()" style="cursor: alias;" draggable="false" title="PIECZĄTKI">
                               <img src="Materials/items/alarm.png" alt="alarm" class="items" onclick="callGuards()" style="cursor: default;" draggable="false" title="WEZWIJ OCHRONĘ">
                   </section>
@@ -180,11 +180,27 @@
                               </section>
                         </section>  
                   </section>
+                  <section id="legitymacja" style="background-color: red;">
+                        <section id="legit2">
+                              <section id="legimgs"><br><img src="Materials/people/green-mug.png" alt="ludek." id="leg-pic" draggable="false"><br><img src="Materials/people/visastamp.png" draggable="false" alt="VISA"></section>
+                              <section id="leginfs">
+                                    <button onclick="hideLegit()">ZAMKNIJ</button><br>
+                                    <b>Imię i nazwisko/Name and surname</b>
+                                    <p id="legname">a</p>
+                                    <b>Narodowość/Nationality</b>
+                                    <p id="legnat">c</p>
+                                    <b>Pełnomocnictwo dyplomatyczne w/Diplomatic access in</b>
+                                    <p id="legpel">d</p>
+                                    <img src="Materials/sticker.png" style="position: absolute; bottom: 0; right: 0; width: 30%;" draggable="false">
+                              </section>
+                        </section>  
+                  </section>
             </section>
       </section>
 </body>
 <script src="Sources/values.js"></script>
 <script src="Sources/main.js"></script>
+<script src="Sources/pageContentLoader.js"></script>
 <script src="Sources/script2.js"></script>
 <script src="Sources/people.js"></script>
 <script src="Sources/savefiles.js"></script>
