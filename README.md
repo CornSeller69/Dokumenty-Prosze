@@ -6,3 +6,6 @@ Przepuszczaj lub zawracaj ludzi przechodzących przez granicę do państwa.
 *Niech żyje Unia Ciechocińska!*
 
 ### Wczesny etap rozwoju: Spodziewajcie się błędów lub zmiany niektórych assetów w przyszłości!
+
+>[!NOTE]
+> Zalecane jest sprawdzenie ![GitHubowego Wiki](https://github.com/CornSeller69/Dokumenty-Prosze/wiki).
